@@ -11,7 +11,7 @@ type Data = {
 */
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    console.log("/zapier/subscribe", req);
+    console.log("/zapier/subscribe", req.body);
     const api_key = req.query.api_key as string;
     const hook_url = req.query.hook_url as string;
     // query database for user with api_key
