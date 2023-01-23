@@ -9,7 +9,6 @@ type Data = {
 
 /*
   Subscribe zapier to a webhook
-  curl --location --request POST 'localhost:3000/api/zapier/subscribe?api_key=123&hook_url=https://hooks.zapier.com/hooks/catch/13294804/bjvjza5' 
   https://platform.zapier.com/docs/apikey#form
 */
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
@@ -30,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       eventName: req.body.eventName as string,
     };
     // insert to transaction database
-    await tigrisDb.getCollection<Event>(Event).insertOne(Event);
+    await tigrisDb.getCollection<Event>(Event).insertOne(event);
     return res.status(200).redirect(req.body.webhookUrl as string);
   } catch (error) {
     console.log(error);
