@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -17,28 +19,14 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    },
-    "experimentalDecorators": true,
-    "strictNullChecks": false
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "ts-node": {
     "compilerOptions": {
-      "experimentalDecorators": true,
-      "emitDecoratorMetadata": true,
-      "target": "es6",
       "module": "commonjs",
-      "moduleResolution": "node",
-      "declaration": true,
-      "outDir": "./dist",
-      "strict": true,
-      "noImplicitAny": false,
-      "strictNullChecks": false,
-      "strictPropertyInitialization": false,
-      "baseUrl": "./src",
-      "typeRoots": ["node_modules/@types"],
-      "esModuleInterop": true
+      "strictNullChecks": false
     }
   }
 }

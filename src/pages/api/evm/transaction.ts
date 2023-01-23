@@ -39,7 +39,7 @@ type Data = {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   console.log("/evm/transaction", req.body);
-  if (req.headers["admin-key"] !== process.env.ADMIN_KEY) return res.status(401).json({ success: false });
+  if (req.headers["x-admin-key"] !== process.env.X_ADMIN_KEY) return res.status(401).json({ success: false });
   const transaction: Transaction = req.body;
   // query database
 

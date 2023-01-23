@@ -1,9 +1,9 @@
 import { Field, PrimaryKey, TigrisCollection, TigrisDataTypes } from "@tigrisdata/core";
 
-@TigrisCollection("event")
-export class Event {
+@TigrisCollection("transaction")
+export class Transaction {
   @PrimaryKey(TigrisDataTypes.STRING, { order: 1 })
-  webhookUrl: string; 
+  webhookUrl: string;
 
   @Field(TigrisDataTypes.STRING)
   userId: string;
@@ -12,17 +12,14 @@ export class Event {
   chainId: number;
 
   @Field(TigrisDataTypes.STRING)
+  fromAddress: string;
+
+  @Field(TigrisDataTypes.STRING)
+  toAddress: string;
+
+  @Field(TigrisDataTypes.STRING)
   contractAddress: string;
 
   @Field(TigrisDataTypes.STRING)
-  abi: string;
-
-  @Field(TigrisDataTypes.STRING)
   eventName: string;
-
-  @Field({ elements: TigrisDataTypes.STRING })
-  topicType: string[];
-
-  @Field({ elements: TigrisDataTypes.STRING })
-  topicValue: string[];
 }

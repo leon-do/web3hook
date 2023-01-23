@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 dotenv.config();
-import { userDatabase } from "./index";
+import tigrisDb from "./tigris";
 import { User } from "./models/user";
 
 /*
@@ -10,16 +10,19 @@ import { User } from "./models/user";
  */
 
 (async () => {
+  // get collection
+  const userDatabase = tigrisDb.getCollection<User>(User);
+
   // Delete User
   const deleteOneResponse = await userDatabase.deleteOne({
-    filter: { userId: "testUserId01" },
+    filter: { userId: "myUserId" },
   });
   console.log("\nDelete User", deleteOneResponse);
 
   // Insert User
   const insertOneResponse = await userDatabase.insertOne({
-    userId: "testUserId01",
-    apiKey: "testApiKey01",
+    userId: "myUserId",
+    apiKey: "123",
     credits: 100,
   } as User);
   console.log("\nInsert One User", insertOneResponse);
@@ -27,7 +30,7 @@ import { User } from "./models/user";
   // Update User
   const updateOneResponse = await userDatabase.updateOne({
     filter: {
-      userId: "testUserId01",
+      userId: "myUserId",
     },
     fields: {
       credits: 50,
@@ -38,7 +41,7 @@ import { User } from "./models/user";
   // Find Users
   const findManyResponse = await userDatabase.findMany({
     filter: {
-      userId: "testUserId01",
+      userId: "myUserId",
     },
   });
   console.log("\nSelect Many Users", await findManyResponse.toArray());

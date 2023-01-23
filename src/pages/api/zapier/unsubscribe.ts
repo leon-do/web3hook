@@ -15,7 +15,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
     const hook_url = req.query.hook_url as string;
     // query database for user with api_key
 
-    // delete event in database
+    // delete transaction in database
 
     return res.status(200).redirect(hook_url);
   } catch {
