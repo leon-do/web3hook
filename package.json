@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "database": "ts-node ./src/database/setup"
+    "create:database": "ts-node ./src/database/setup",
+    "test:database": "ts-node ./src/database/test"
   },
   "dependencies": {
     "@next/font": "13.1.4",

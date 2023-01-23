@@ -3,7 +3,10 @@ import { Field, PrimaryKey, TigrisCollection, TigrisDataTypes } from "@tigrisdat
 @TigrisCollection("user")
 export class User {
   @PrimaryKey(TigrisDataTypes.STRING, { order: 1 })
-  id: string;
+  userId: string;
+
+  @Field(TigrisDataTypes.STRING)
+  apiKey: string;
 
   @Field(TigrisDataTypes.INT64)
   credits: number;

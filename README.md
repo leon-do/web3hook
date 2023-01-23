@@ -27,12 +27,14 @@ TIGRIS_CLIENT_SECRET=00000000000000000000000000000000000000000000000000000000000
 TIGRIS_DB_BRANCH=main
 ```
 
-To create a database collection
+To create and test a database collection
 
 ```bash
-npm run database
+npm run create:database
+npm run test:database
 ```
 
 ```bash
 npm run dev
+http://localhost:3000
 ```

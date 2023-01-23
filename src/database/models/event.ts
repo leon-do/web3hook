@@ -6,7 +6,7 @@ export class Event {
   webhookUrl: string; 
 
   @Field(TigrisDataTypes.STRING)
-  user: string;
+  userId: string;
 
   @Field(TigrisDataTypes.INT64)
   chainId: number;

@@ -4,6 +4,11 @@ import { Tigris } from "@tigrisdata/core";
 import { User } from "./models/user";
 import { Event } from "./models/event";
 
+/*
+ * This script is used to create the database collections
+ * The models are defined in the `src/database/models` folder
+ * It is run by the `npm run database`
+ * */
 async function main() {
   console.log("Creating database collections...");
   const tigrisClient = new Tigris();
