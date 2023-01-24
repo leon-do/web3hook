@@ -20,13 +20,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (!user) return res.status(400).send({ success: false });
     // define Event to insert
     const event: Event = {
-      webhookUrl: req.body.webhookUrl as string,
       userId: user.userId as string,
+      webhookUrl: req.body.webhookUrl as string,
       chainId: req.body.chainId as number,
-      fromAddress: req.body.fromAddress as string,
-      toAddress: req.body.toAddress as string,
-      contractAddress: req.body.contractAddress as string,
-      eventName: req.body.eventName as string,
+      address: req.body.address as string,
+      abi: req.body.abi as string,
     };
     // insert to transaction database
     await tigrisDb.getCollection<Event>(Event).insertOne(event);

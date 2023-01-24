@@ -12,14 +12,8 @@ export class Event {
   chainId: number;
 
   @Field(TigrisDataTypes.STRING)
-  fromAddress: string;
+  address: string;
 
   @Field(TigrisDataTypes.STRING)
-  toAddress: string;
-
-  @Field(TigrisDataTypes.STRING)
-  contractAddress: string;
-
-  @Field(TigrisDataTypes.STRING)
-  eventName: string;
+  abi: string;
 }

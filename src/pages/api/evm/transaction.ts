@@ -1,4 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import tigrisDb from "../../../database/tigris";
+import { User } from "../../../database/models/user";
+import { Event } from "../../../database/models/event";
 
 type Transaction = {
   hash: string;
@@ -37,11 +40,21 @@ type Data = {
   success: boolean;
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  console.log("/evm/transaction", req.body);
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+  console.log("/evm/transaction");
   if (req.headers["x-admin-key"] !== process.env.X_ADMIN_KEY) return res.status(401).json({ success: false });
   const transaction: Transaction = req.body;
-  // query database
-
-  return res.status(200).json({ success: true });
+  // query database for user with api_key
+  const user = await tigrisDb.getCollection<User>(User).findOne({ filter: { apiKey: req.headers["x-api-key"] as string } });
+  // if no user, return error
+  if (!user) return res.status(400).send({ success: false });
+  // query logs
+  const eventsRespones = await tigrisDb.getCollection<Event>(Event).findMany({
+    filter: {
+      address: transaction.to || transaction.contractAddress,
+    },
+  });
+  const events = await eventsRespones.toArray();
+  console.log(events);
+  res.status(200).json({ success: true });
 }

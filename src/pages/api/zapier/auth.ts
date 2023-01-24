@@ -6,7 +6,6 @@ type Data = {
 
 /*
   Authenticate Zapier API key against database
-  curl --location --request GET 'http://localhost:3000/api/zapier/auth?api_key=123'
 */
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {

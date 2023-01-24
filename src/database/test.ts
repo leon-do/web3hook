@@ -23,7 +23,8 @@ import { User } from "./models/user";
   const insertOneResponse = await userDatabase.insertOne({
     userId: "myUserId",
     apiKey: "123",
-    credits: 100,
+    paid: false,
+    created: new Date(),
   } as User);
   console.log("\nInsert One User", insertOneResponse);
 
@@ -33,7 +34,7 @@ import { User } from "./models/user";
       userId: "myUserId",
     },
     fields: {
-      credits: 50,
+      paid: true,
     },
   });
   console.log("\nUpdating User", updateOneResponse);

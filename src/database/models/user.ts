@@ -8,6 +8,9 @@ export class User {
   @Field(TigrisDataTypes.STRING)
   apiKey: string;
 
-  @Field(TigrisDataTypes.INT64)
-  credits: number;
+  @Field(TigrisDataTypes.BOOLEAN)
+  paid: boolean;
+
+  @Field(TigrisDataTypes.INT32)
+  created: number;
 }
