@@ -4,9 +4,6 @@ type Data = {
   success: boolean;
 };
 
-/*
-  Authenticate Zapier API key against database
-*/
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
     console.log("/zapier/auth", req.body);

@@ -7,10 +7,6 @@ type Data = {
   success: boolean;
 };
 
-/*
-  Subscribe zapier to a webhook
-  https://platform.zapier.com/docs/apikey#form
-*/
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
     console.log("/zapier/subscribe");
