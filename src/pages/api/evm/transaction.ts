@@ -25,10 +25,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     if (req.headers["x-admin-key"] !== process.env.X_ADMIN_KEY) return;
     const transaction: HookRequest = req.body;
-    // query database for user with api_key
-    const user = await tigrisDb.getCollection<User>(User).findOne({ filter: { apiKey: req.headers["x-api-key"] as string } });
-    // if no user, return error
-    if (!user) return res.status(400).send({ success: false });
     // query triggers
     const triggers = await queryDatabase(transaction);
     // filter events with no abi then format response object
