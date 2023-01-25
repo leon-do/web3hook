@@ -21,48 +21,59 @@ type HookResponse = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  console.log("/evm/transaction");
-  if (req.headers["x-admin-key"] !== process.env.X_ADMIN_KEY) return res.status(401).json({ success: false });
-  const transaction: HookRequest = req.body;
-  // query database for user with api_key
-  const user = await tigrisDb.getCollection<User>(User).findOne({ filter: { apiKey: req.headers["x-api-key"] as string } });
-  // if no user, return error
-  if (!user) return res.status(400).send({ success: false });
-  // get user transactions
-  const triggers = await tigrisDb.getCollection<Trigger>(Trigger).findMany({
-    filter: {
-      op: LogicalOperator.AND,
-      selectorFilters: [
-        {
-          chainId: transaction.chainId,
-        },
-      ],
-      logicalFilters: [
-        {
-          op: LogicalOperator.OR,
-          selectorFilters: [
-            {
-              address: transaction.from.toLowerCase(),
-            },
-            {
-              address: transaction.to.toLocaleLowerCase(),
-            },
-          ],
-        },
-      ],
-    },
-  });
-  // loop through transactions and emit
-  (await triggers.toArray()).forEach((trigger) => {
-    const emitTransaction: HookResponse = {
-      fromAddress: transaction.from,
-      toAddress: transaction.to,
-      value: ethers.BigNumber.from(transaction.value).toString(),
-      transactionHash: transaction.hash,
-    };
-    console.log(`emiting ${emitTransaction} to ${trigger.webhookUrl}`);
-    // POST reqeust to webhookUrl
-    axios.post(trigger.webhookUrl, JSON.stringify(emitTransaction));
-  });
-  return res.status(200).json({ success: true });
+  res.status(200).json({ success: true });
+  try {
+    if (req.headers["x-admin-key"] !== process.env.X_ADMIN_KEY) return;
+    const transaction: HookRequest = req.body;
+    // query database for user with api_key
+    const user = await tigrisDb.getCollection<User>(User).findOne({ filter: { apiKey: req.headers["x-api-key"] as string } });
+    // if no user, return error
+    if (!user) return res.status(400).send({ success: false });
+    // query triggers
+    const triggers = await queryDatabase(transaction);
+    // filter events with no abi then format response object
+    triggers
+      .filter((val) => !val.abi)
+      .forEach((trigger) => {
+        const hookResponse: HookResponse = {
+          fromAddress: transaction.from,
+          toAddress: transaction.to,
+          value: ethers.BigNumber.from(transaction.value).toString(),
+          transactionHash: transaction.hash,
+        };
+        console.log(JSON.stringify(hookResponse));
+        // POST reqeust to webhookUrl
+        axios.post(trigger.webhookUrl, JSON.stringify(hookResponse));
+      });
+  } catch (error) {
+    console.log("/evm/transaction", error);
+  }
+}
+
+async function queryDatabase(transaction: HookRequest): Promise<Trigger[]> {
+  return await (
+    await tigrisDb.getCollection<Trigger>(Trigger).findMany({
+      filter: {
+        op: LogicalOperator.AND,
+        selectorFilters: [
+          {
+            chainId: transaction.chainId,
+          },
+        ],
+        logicalFilters: [
+          {
+            op: LogicalOperator.OR,
+            selectorFilters: [
+              {
+                address: transaction.from.toLowerCase(),
+              },
+              {
+                address: transaction.to.toLocaleLowerCase(),
+              },
+            ],
+          },
+        ],
+      },
+    })
+  ).toArray();
 }
