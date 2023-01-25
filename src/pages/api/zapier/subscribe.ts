@@ -25,8 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // insert to transaction database
     await tigrisDb.getCollection<Event>(Event).insertOne(event);
     return res.status(200).redirect(req.body.webhookUrl as string);
-  } catch (error) {
-    console.log(error);
+  } catch {
     return res.status(400).send({ success: false });
   }
 }

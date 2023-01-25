@@ -1,16 +1,16 @@
 import { Field, PrimaryKey, TigrisCollection, TigrisDataTypes } from "@tigrisdata/core";
 
-@TigrisCollection("user")
-export class User {
+@TigrisCollection("transaction")
+export class Transaction {
   @PrimaryKey(TigrisDataTypes.STRING, { order: 1 })
-  userId: string;
+  webhookUrl: string;
 
   @Field(TigrisDataTypes.STRING)
-  apiKey: string;
-
-  @Field(TigrisDataTypes.BOOLEAN)
-  paid: boolean;
+  userId: string;
 
   @Field(TigrisDataTypes.INT64)
-    created: number;
+  chainId: number;
+
+  @Field(TigrisDataTypes.STRING)
+  address: string;
 }

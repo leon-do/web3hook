@@ -1,60 +1,68 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import axios from "axios";
+import { ethers } from "ethers";
 import tigrisDb from "../../../database/tigris";
 import { User } from "../../../database/models/user";
-import { Event } from "../../../database/models/event";
-
-type Transaction = {
-  hash: string;
-  type: number;
-  accessList: any[] | null;
-  blockHash: string;
-  blockNumber: number;
-  transactionIndex: number;
-  confirmations: number;
-  from: string;
-  gasPrice: { type: string; hex: string };
-  maxPriorityFeePerGas: { type: string; hex: string };
-  maxFeePerGas: { type: string; hex: string };
-  gasLimit: { type: string; hex: string };
-  to: string;
-  value: { type: string; hex: string };
-  nonce: number;
-  data: string;
-  r: string;
-  s: string;
-  v: number;
-  creates?: any;
-  chainId: number;
-  contractAddress: string | null;
-  gasUsed: { type: string; hex: string };
-  logsBloom: string;
-  transactionHash: string;
-  logs: { transactionIndex: number; blockNumber: number; transactionHash: string; address: string; topics: string[]; data: string; logIndex: number; blockHash: string }[];
-  cumulativeGasUsed: { type: string; hex: string };
-  effectiveGasPrice: { type: string; hex: string };
-  status: number;
-  byzantium: boolean;
-};
+import { Transaction } from "../../../database/models/transaction";
+import { LogicalOperator } from "@tigrisdata/core";
 
 type Data = {
   success: boolean;
 };
 
+// forwarding response to this endpoint
+type TransactionRequest = ethers.providers.TransactionResponse;
+
+type TransactionResponse = {
+  transactionHash: string;
+  fromAddress: string;
+  toAddress: string;
+  value: string;
+};
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   console.log("/evm/transaction");
   if (req.headers["x-admin-key"] !== process.env.X_ADMIN_KEY) return res.status(401).json({ success: false });
-  const transaction: Transaction = req.body;
+  const transaction: TransactionRequest = req.body;
   // query database for user with api_key
   const user = await tigrisDb.getCollection<User>(User).findOne({ filter: { apiKey: req.headers["x-api-key"] as string } });
   // if no user, return error
   if (!user) return res.status(400).send({ success: false });
-  // query logs
-  const eventsRespones = await tigrisDb.getCollection<Event>(Event).findMany({
+  // get user transactions
+  const userTransactions = await tigrisDb.getCollection<Transaction>(Transaction).findMany({
     filter: {
-      address: transaction.to || transaction.contractAddress,
+      op: LogicalOperator.AND,
+      selectorFilters: [
+        {
+          chainId: transaction.chainId,
+        },
+      ],
+      logicalFilters: [
+        {
+          op: LogicalOperator.OR,
+          selectorFilters: [
+            {
+              address: transaction.from.toLowerCase(),
+            },
+            {
+              address: transaction.to.toLocaleLowerCase(),
+            },
+          ],
+        },
+      ],
     },
   });
-  const events = await eventsRespones.toArray();
-  console.log(events);
-  res.status(200).json({ success: true });
+  // loop through transactions and emit
+  (await userTransactions.toArray()).forEach((event) => {
+    const emitTransaction: TransactionResponse = {
+      fromAddress: transaction.from,
+      toAddress: transaction.to,
+      value: ethers.BigNumber.from(transaction.value).toString(),
+      transactionHash: transaction.hash,
+    };
+    console.log(`emiting ${emitTransaction} to ${event.webhookUrl}`);
+    // POST reqeust to webhookUrl
+    axios.post(event.webhookUrl, JSON.stringify(emitTransaction));
+  });
+  return res.status(200).json({ success: true });
 }

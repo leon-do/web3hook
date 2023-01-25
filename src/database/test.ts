@@ -24,7 +24,7 @@ import { User } from "./models/user";
     userId: "myUserId",
     apiKey: "123",
     paid: false,
-    created: new Date(),
+    created: Date.now(), 
   } as User);
   console.log("\nInsert One User", insertOneResponse);
 
