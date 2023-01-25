@@ -1,7 +1,7 @@
 import { Field, PrimaryKey, TigrisCollection, TigrisDataTypes } from "@tigrisdata/core";
 
-@TigrisCollection("event")
-export class Event {
+@TigrisCollection("trigger")
+export class Trigger {
   @PrimaryKey(TigrisDataTypes.STRING, { order: 1 })
   webhookUrl: string;
 

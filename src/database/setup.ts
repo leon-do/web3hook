@@ -2,8 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import { Tigris } from "@tigrisdata/core";
 import { User } from "./models/user";
-import { Event } from "./models/event";
-import { Transaction } from "./models/transaction";
+import { Trigger } from "./models/trigger";
 
 /*
  * This script is used to create the database collections
@@ -13,7 +12,7 @@ import { Transaction } from "./models/transaction";
 async function main() {
   console.log("Creating database collections...");
   const tigrisClient = new Tigris();
-  await tigrisClient.registerSchemas([User, Event, Transaction]);
+  await tigrisClient.registerSchemas([User, Trigger]);
 }
 
 main()
