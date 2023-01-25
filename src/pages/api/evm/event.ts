@@ -22,11 +22,13 @@ type HookResponse = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   res.status(200).json({ success: true });
+  console.log("event", req.body.log.transactionHash);
   try {
     if (req.headers["x-admin-key"] !== process.env.X_ADMIN_KEY) return;
     const event: HookRequest = req.body;
     // query triggers
     const triggers = await queryDatabase(event);
+    console.log(triggers);
     // filter events with abi then format response object
     triggers
       .filter((val) => val.abi)
@@ -34,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         const hookResponse: HookResponse = getHookResponse(trigger.abi, event.log);
         console.log(hookResponse);
         // POST to webhookUrl
-        axios.post(trigger.webhookUrl, JSON.stringify(hookResponse));
+        axios.post(trigger.webhookUrl, hookResponse);
       });
   } catch (error) {
     console.log("/evm/event", error);

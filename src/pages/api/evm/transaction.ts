@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         };
         console.log(JSON.stringify(hookResponse));
         // POST reqeust to webhookUrl
-        axios.post(trigger.webhookUrl, JSON.stringify(hookResponse));
+        axios.post(trigger.webhookUrl, hookResponse);
       });
   } catch (error) {
     console.log("/evm/transaction", error);
