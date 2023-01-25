@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           value: ethers.BigNumber.from(transaction.value).toString(),
           transactionHash: transaction.hash,
         };
-        console.log(JSON.stringify(hookResponse));
+        // console.log(JSON.stringify(hookResponse));
         // POST reqeust to webhookUrl
         axios.post(trigger.webhookUrl, hookResponse);
       });

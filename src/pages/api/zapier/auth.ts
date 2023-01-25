@@ -6,7 +6,7 @@ type Data = {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    console.log("/zapier/auth", req.body);
+    console.log("/zapier/auth");
     const { api_key } = req.body;
     if (!api_key) return res.status(400).json({ success: false });
     // query database for user with api_key

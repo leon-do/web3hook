@@ -27,13 +27,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const event: HookRequest = req.body;
     // query triggers
     const triggers = await queryDatabase(event);
-    console.log(triggers);
     // filter events with abi then format response object
     triggers
       .filter((val) => val.abi)
       .forEach((trigger) => {
         const hookResponse: HookResponse = getHookResponse(trigger.abi, event.log);
-        console.log(hookResponse);
         // POST to webhookUrl
         axios.post(trigger.webhookUrl, hookResponse);
       });
