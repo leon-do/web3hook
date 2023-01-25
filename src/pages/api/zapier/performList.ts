@@ -27,7 +27,7 @@ function getPerformList(_abi: string): PerformList {
   for (const key in iface.events) {
     const eventName = iface.events[key].name;
     iface.events[key].inputs.forEach((input) => {
-      emptyEvents[`${eventName}_${input.name}`] = null;
+      emptyEvents[`${eventName}_${input.name}`] = "0x0";
     });
   }
   return emptyEvents;
