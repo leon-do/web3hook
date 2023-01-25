@@ -10,7 +10,7 @@ type PerformList = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<PerformList[]>) {
   try {
-    console.log("/zapier/perfomList");
+    console.log("/zapier/eventPerformList");
     // query database for user with api_key
     const user = await tigrisDb.getCollection<User>(User).findOne({ filter: { apiKey: req.headers["x-api-key"] as string } });
     // if no user, return error
