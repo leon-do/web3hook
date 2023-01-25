@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const user = await tigrisDb.getCollection<User>(User).findOne({ filter: { apiKey: req.headers["x-api-key"] as string } });
   // if no user, return error
   if (!user) return res.status(400).send([]);
-  return res.status(400).send([
+  return res.status(200).send([
     {
       transactionHash: "0x0",
       fromAddress: "0x0",
