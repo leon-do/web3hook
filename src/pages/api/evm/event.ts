@@ -22,7 +22,6 @@ type HookResponse = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   res.status(200).json({ success: true });
-  console.log("event", req.body.log.transactionHash);
   try {
     if (req.headers["x-admin-key"] !== process.env.X_ADMIN_KEY) return;
     const event: HookRequest = req.body;
