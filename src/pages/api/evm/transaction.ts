@@ -60,10 +60,10 @@ async function queryDatabase(transaction: HookRequest): Promise<Trigger[]> {
             op: LogicalOperator.OR,
             selectorFilters: [
               {
-                address: transaction.from ? transaction.from.toLowerCase() : null,
+                address: transaction.from ? transaction.from.toLowerCase() : "",
               },
               {
-                address: transaction.to ? transaction.to.toLowerCase() : null,
+                address: transaction.to ? transaction.to.toLowerCase() : "",
               },
             ],
           },
