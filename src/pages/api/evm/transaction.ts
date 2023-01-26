@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import { ethers } from "ethers";
 import tigrisDb from "../../../database/tigris";
-import { User } from "../../../database/models/user";
 import { Trigger } from "../../../database/models/trigger";
 import { LogicalOperator } from "@tigrisdata/core";
 
@@ -37,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           value: ethers.BigNumber.from(transaction.value).toString(),
           transactionHash: transaction.hash,
         };
-        // console.log(JSON.stringify(hookResponse));
+        console.log(JSON.stringify(hookResponse));
         // POST reqeust to webhookUrl
         axios.post(trigger.webhookUrl, hookResponse);
       });
@@ -61,10 +60,10 @@ async function queryDatabase(transaction: HookRequest): Promise<Trigger[]> {
             op: LogicalOperator.OR,
             selectorFilters: [
               {
-                address: transaction.from.toLowerCase(),
+                address: transaction.from ? transaction.from.toLowerCase() : null,
               },
               {
-                address: transaction.to.toLowerCase(),
+                address: transaction.to ? transaction.to.toLowerCase() : null,
               },
             ],
           },

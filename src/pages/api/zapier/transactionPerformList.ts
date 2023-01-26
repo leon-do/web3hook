@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       transactionHash: "0x0",
       fromAddress: "0x0",
       toAddress: "0x0",
-      value: "0x0",
+      value: "0",
     },
   ]);
 }
