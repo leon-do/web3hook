@@ -9,7 +9,8 @@ type Data = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    console.log("/zapier/unsubscribe", req);
+    console.log("/zapier/unsubscribe");
+    if (!req.body.webhookUrl) return res.status(400).send({ success: false });
     // query database for user with api_key
     const user = await tigrisDb.getCollection<User>(User).findOne({ filter: { apiKey: req.headers["x-api-key"] as string } });
     // if no user, return error
