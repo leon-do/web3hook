@@ -64,7 +64,7 @@ async function queryDatabase(transaction: HookRequest): Promise<Trigger[]> {
                 address: transaction.from.toLowerCase(),
               },
               {
-                address: transaction.to.toLocaleLowerCase(),
+                address: transaction.to.toLowerCase(),
               },
             ],
           },
