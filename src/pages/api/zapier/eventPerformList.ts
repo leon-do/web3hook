@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 }
 
 function getPerformList(_abi: string): PerformList {
-  const emptyEvents = {transactionHash: "0x0"};
+  const emptyEvents = { transactionHash: "0x0" };
   const iface = new ethers.utils.Interface(_abi);
   // fill event object with null values
   for (const key in iface.events) {

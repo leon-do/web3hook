@@ -2,9 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import { ethers } from "ethers";
 import tigrisDb from "../../../database/tigris";
-import { User } from "../../../database/models/user";
 import { Trigger } from "../../../database/models/trigger";
-import { LogicalOperator, SelectorFilterOperator } from "@tigrisdata/core";
+import { LogicalOperator } from "@tigrisdata/core";
 
 type Data = {
   success: boolean;
