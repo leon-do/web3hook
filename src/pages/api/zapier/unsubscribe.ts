@@ -1,19 +1,22 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import tigrisDb from "../../../database/tigris";
+import { User } from "../../../database/models/user";
+import { Trigger } from "../../../database/models/trigger";
 
 type Data = {
   success: boolean;
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
     console.log("/zapier/unsubscribe", req);
-    const api_key = req.query.api_key as string;
-    const hook_url = req.query.hook_url as string;
     // query database for user with api_key
-
-    // delete transaction in database
-
-    return res.status(200).redirect(hook_url);
+    const user = await tigrisDb.getCollection<User>(User).findOne({ filter: { apiKey: req.headers["x-api-key"] as string } });
+    // if no user, return error
+    if (!user) return res.status(400).send({ success: false });
+    // delete webhook in database
+    await tigrisDb.getCollection<Trigger>(Trigger).deleteOne({ filter: { webhookUrl: req.body.webhookUrl } });
+    return res.status(200).send({ success: true });
   } catch {
     return res.status(400).send({ success: false });
   }
