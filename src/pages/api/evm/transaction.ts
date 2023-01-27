@@ -48,7 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 async function queryDatabase(transaction: HookRequest): Promise<Trigger[]> {
   return await prisma.trigger.findMany({
     where: {
-      chainId: 1,
+      chainId: transaction.chainId,
       OR: [
         {
           address: transaction.from,
