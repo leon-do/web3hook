@@ -28,12 +28,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // query triggers
     const triggers = await queryDatabase(event);
     // filter events with abi then format response object
-    triggers
-      .forEach((trigger) => {
-        const hookResponse: HookResponse = getHookResponse(trigger.abi || "[]", event.log);
-        // POST to webhookUrl
-        axios.post(trigger.webhookUrl, hookResponse);
-      });
+    triggers.forEach((trigger) => {
+      const hookResponse: HookResponse = getHookResponse(trigger.abi || "[]", event.log);
+      // POST to webhookUrl
+      axios.post(trigger.webhookUrl, hookResponse);
+    });
   } catch (error) {
     console.log("/evm/event", error);
   }
