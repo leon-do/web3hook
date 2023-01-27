@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import { ethers } from "ethers";
-import tigrisDb from "../../../database/tigris";
-import { Trigger } from "../../../database/models/trigger";
-import { LogicalOperator } from "@tigrisdata/core";
+import { PrismaClient } from "@prisma/client";
+import { Trigger } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 type Data = {
   success: boolean;
@@ -28,11 +29,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const triggers = await queryDatabase(transaction);
     // filter events with no abi then format response object
     triggers
-      .filter((val) => !val.abi)
       .forEach((trigger) => {
         const hookResponse: HookResponse = {
           fromAddress: transaction.from,
-          toAddress: transaction.to,
+          toAddress: transaction.to ? transaction.to.toLowerCase() : "",
           value: ethers.BigNumber.from(transaction.value).toString(),
           transactionHash: transaction.hash,
         };
@@ -46,29 +46,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 }
 
 async function queryDatabase(transaction: HookRequest): Promise<Trigger[]> {
-  return await (
-    await tigrisDb.getCollection<Trigger>(Trigger).findMany({
-      filter: {
-        op: LogicalOperator.AND,
-        selectorFilters: [
-          {
-            chainId: transaction.chainId,
-          },
-        ],
-        logicalFilters: [
-          {
-            op: LogicalOperator.OR,
-            selectorFilters: [
-              {
-                address: transaction.from ? transaction.from.toLowerCase() : "",
-              },
-              {
-                address: transaction.to ? transaction.to.toLowerCase() : "",
-              },
-            ],
-          },
-        ],
+  return await prisma.trigger.findMany({
+    where: {
+      chainId: 1,
+      OR: [
+        {
+          address: transaction.from,
+        },
+        {
+          address: transaction.to ? transaction.to.toLowerCase() : "",
+        },
+      ],
+      NOT: {
+        abi: "",
       },
-    })
-  ).toArray();
+    },
+  });
 }

@@ -11,27 +11,20 @@ Includes:
 
 ## Getting Started
 
-Set up Tigris database: https://www.tigrisdata.com/docs/quickstarts/
-
 Create `.env` file
 
 ```
 # ADMIN_KEY to allow database CRUD operations
 ADMIN_KEY=321
 
-# https://www.tigrisdata.com/docs/sdkstools/cli/configuration/#example-environment-configuration
-TIGRIS_URI=api.preview.tigrisdata.cloud
-TIGRIS_PROJECT=MyProject
-TIGRIS_CLIENT_ID=00000000000000000000000000000000
-TIGRIS_CLIENT_SECRET=0000000000000000000000000000000000000000000000000000000000000000
-TIGRIS_DB_BRANCH=main
+# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
+DATABASE_URL="mysql://johndoe:randompassword@localhost:5432/mydb?schema=public"
 ```
 
-To create and test a database collection
+To create table
 
 ```bash
 npm run create:database
-npm run test:database
 ```
 
 ```bash
