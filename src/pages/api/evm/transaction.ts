@@ -28,7 +28,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // query triggers
     const triggers = await queryDatabase(transaction);
     // filter events with no abi then format response object
-    console.log(triggers);
     triggers.forEach((trigger) => {
       const hookResponse: HookResponse = {
         fromAddress: transaction.from,
@@ -36,9 +35,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         value: ethers.BigNumber.from(transaction.value).toString(),
         transactionHash: transaction.hash,
       };
-      console.log(JSON.stringify(hookResponse));
       // POST reqeust to webhookUrl
-      // axios.post(trigger.webhookUrl, hookResponse);
+      axios.post(trigger.webhookUrl, hookResponse);
     });
   } catch (error) {
     console.log("/evm/transaction", error);
@@ -49,17 +47,13 @@ async function queryDatabase(transaction: HookRequest): Promise<Trigger[]> {
   return await prisma.trigger.findMany({
     where: {
       chainId: transaction.chainId,
+      abi: null,
       OR: [
         {
           address: transaction.from.toLowerCase(),
         },
         {
           address: transaction.to ? transaction.to.toLowerCase() : "",
-        },
-      ],
-      AND: [
-        {
-          abi: null,
         },
       ],
     },
