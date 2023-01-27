@@ -19,14 +19,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const trigger: Trigger = {
       userId: user.userId as string,
       webhookUrl: req.body.webhookUrl as string,
-      chainId: req.body.chainId as number,
+      chainId: req.body.chainId as string,
       address: req.body.address.toLowerCase() as string,
       abi: req.body.abi as string,
     };
     // insert to transaction database
     await prisma.trigger.create({ data: trigger });
     return res.status(200).redirect(req.body.webhookUrl as string);
-  } catch {
+  } catch (error) {
+    console.log(error)
     return res.status(400).send({ success: false });
   }
 }

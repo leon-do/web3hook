@@ -24,6 +24,6 @@ model Trigger {
   address    String
   abi        String?
   userId     String
-  chainId    Int 
+  chainId    String 
   user       User   @relation(fields: [userId], references: [userId])
 }
