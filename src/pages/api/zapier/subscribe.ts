@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const trigger: Trigger = {
       userId: user.userId as string,
       webhookUrl: req.body.webhookUrl as string,
-      chainId: req.body.chainId as number,
+      chainId: Number(req.body.chainId) as number,
       address: req.body.address.toLowerCase() as string,
       abi: req.body.abi as string,
     };
