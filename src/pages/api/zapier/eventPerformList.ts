@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ethers } from "ethers";
-import tigrisDb from "../../../database/tigris";
-import { User } from "../../../database/models/user";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 type PerformList = {
   transactionHash: string;
@@ -12,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     console.log("/zapier/eventPerformList");
     // query database for user with api_key
-    const user = await tigrisDb.getCollection<User>(User).findOne({ filter: { apiKey: req.headers["x-api-key"] as string } });
+    const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
     // if no user, return error
     if (!user) return res.status(400).send([]);
     return res.status(200).send([getPerformList(req.body.abi as string)]);
@@ -22,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 }
 
 function getPerformList(_abi: string): PerformList {
-  const emptyEvents = { transactionHash: "0x0" };
+  const emptyEvents: PerformList = { transactionHash: "0x0" };
   const iface = new ethers.utils.Interface(_abi);
   // fill event object with null values
   for (const key in iface.events) {

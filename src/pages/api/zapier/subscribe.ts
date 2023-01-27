@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import tigrisDb from "../../../database/tigris";
-import { User } from "../../../database/models/user";
-import { Trigger } from "../../../database/models/trigger";
+import { PrismaClient } from "@prisma/client";
+import { User, Trigger } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 type Data = {
   success: boolean;
@@ -11,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     console.log("/zapier/subscribe");
     // query database for user with api_key
-    const user = await tigrisDb.getCollection<User>(User).findOne({ filter: { apiKey: req.headers["x-api-key"] as string } });
+    const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
     // if no user, return error
     if (!user) return res.status(400).send({ success: false });
     // define Trigger to insert
@@ -23,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       abi: req.body.abi as string,
     };
     // insert to transaction database
-    await tigrisDb.getCollection<Trigger>(Trigger).insertOne(trigger);
+    await prisma.trigger.create({ data: trigger });
     return res.status(200).redirect(req.body.webhookUrl as string);
   } catch {
     return res.status(400).send({ success: false });
