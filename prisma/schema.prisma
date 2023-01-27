@@ -22,7 +22,7 @@ model User {
 model Trigger {
   webhookUrl String @id @unique
   address    String
-  abi        String?
+  abi        String? @db.Text
   userId     String
   chainId    Int 
   user       User   @relation(fields: [userId], references: [userId])
