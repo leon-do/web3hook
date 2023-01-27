@@ -51,7 +51,7 @@ async function queryDatabase(transaction: HookRequest): Promise<Trigger[]> {
       chainId: transaction.chainId,
       OR: [
         {
-          address: transaction.from,
+          address: transaction.from.toLowerCase(),
         },
         {
           address: transaction.to ? transaction.to.toLowerCase() : "",
