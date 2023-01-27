@@ -28,18 +28,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // query triggers
     const triggers = await queryDatabase(transaction);
     // filter events with no abi then format response object
-    triggers
-      .forEach((trigger) => {
-        const hookResponse: HookResponse = {
-          fromAddress: transaction.from,
-          toAddress: transaction.to ? transaction.to.toLowerCase() : "",
-          value: ethers.BigNumber.from(transaction.value).toString(),
-          transactionHash: transaction.hash,
-        };
-        console.log(JSON.stringify(hookResponse));
-        // POST reqeust to webhookUrl
-        axios.post(trigger.webhookUrl, hookResponse);
-      });
+    console.log(triggers);
+    triggers.forEach((trigger) => {
+      const hookResponse: HookResponse = {
+        fromAddress: transaction.from,
+        toAddress: transaction.to ? transaction.to.toLowerCase() : "",
+        value: ethers.BigNumber.from(transaction.value).toString(),
+        transactionHash: transaction.hash,
+      };
+      console.log(JSON.stringify(hookResponse));
+      // POST reqeust to webhookUrl
+      // axios.post(trigger.webhookUrl, hookResponse);
+    });
   } catch (error) {
     console.log("/evm/transaction", error);
   }
@@ -57,9 +57,11 @@ async function queryDatabase(transaction: HookRequest): Promise<Trigger[]> {
           address: transaction.to ? transaction.to.toLowerCase() : "",
         },
       ],
-      NOT: {
-        abi: "",
-      },
+      AND: [
+        {
+          abi: null,
+        },
+      ],
     },
   });
 }
