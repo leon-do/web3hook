@@ -9,6 +9,7 @@ type PerformList = {
   [key: string]: string;
 };
 
+// https://platform.zapier.com/docs/faq#i-get-a-trigger-error-saying-that-an-array-is-expected-how-do-i-fix-it
 export default async function handler(req: NextApiRequest, res: NextApiResponse<PerformList[]>) {
   try {
     console.log("/zapier/eventPerformList");
