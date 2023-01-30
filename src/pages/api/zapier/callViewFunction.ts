@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 const providers: Providers = {
   "1": new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/eth"),
   "5": new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/eth_goerli"),
+  "5001": new ethers.providers.JsonRpcProvider("https://rpc.testnet.mantle.xyz"),
 };
 
 type Providers = {
