@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // query database for user with api_key
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
     // if no user, return error
-    if (!user) return res.status(400).send({ data: "" });
+    if (!user) return res.status(400).send({ data: "Invalid API Key" });
     const { chainId, address, abi, func, args } = req.body;
     const provider = new ethers.providers.JsonRpcProvider(rpcs[chainId]);
     const contract = new ethers.Contract(address, abi, provider);
