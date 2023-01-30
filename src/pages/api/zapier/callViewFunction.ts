@@ -4,12 +4,13 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const rpcs: RPCs = {
-  "5": "https://rpc.ankr.com/eth_goerli/81817392c8df680308a07721d2b9951dc18e8ae1881e32607bb62efc85b54912",
+const providers: Providers = {
+  "1": new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/eth"),
+  "5": new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/eth_goerli"),
 };
 
-type RPCs = {
-  [key: string]: string;
+type Providers = {
+  [key: string]: ethers.providers.JsonRpcProvider;
 };
 
 type Data = {
@@ -23,9 +24,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
     // if no user, return error
     if (!user) return res.status(400).send({ data: "Invalid API Key" });
+    // get request body
     const { chainId, address, abi, func, args } = req.body;
-    const provider = new ethers.providers.JsonRpcProvider(rpcs[chainId]);
+    // get provider
+    const provider = providers[chainId];
+    if (!provider) return res.status(400).send({ data: "Invalid Chain ID" });
+    // create contract
     const contract = new ethers.Contract(address, abi, provider);
+    // call function
     let val;
     if (args === "") {
       val = await contract[func]();
