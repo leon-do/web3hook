@@ -26,9 +26,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const { chainId, address, abi, func, args } = req.body;
     const provider = new ethers.providers.JsonRpcProvider(rpcs[chainId]);
     const contract = new ethers.Contract(address, abi, provider);
-    const val = await contract[func](...args.split(",").map((arg: string) => arg.trim()));
+    let val;
+    if (args === "") {
+      val = await contract[func]();
+    } else {
+      val = await contract[func](...args.split(",").map((arg: string) => arg.trim()));
+    }
     return res.status(200).send({ data: val.toString() });
-  } catch {
-    return res.status(400).json({ data: "" });
+  } catch (error: any) {
+    return res.status(400).json({ data: error.message as string });
   }
 }
