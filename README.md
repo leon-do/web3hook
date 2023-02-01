@@ -16,9 +16,6 @@ Includes:
 Create `.env` file
 
 ```
-# ADMIN_KEY to allow database CRUD operations
-ADMIN_KEY=321
-
 # See the documentation for all the connection string options: https://pris.ly/d/connection-strings
 DATABASE_URL="mysql://johndoe:randompassword@localhost:5432/mydb?schema=public"
 ```
