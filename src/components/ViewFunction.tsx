@@ -41,7 +41,7 @@ export default function ViewFunction() {
               <div className="relative isolate overflow-hidden bg-indigo-500 px-6 pt-8 sm:mx-auto sm:max-w-2xl sm:rounded-3xl sm:pt-16 sm:pl-16 sm:pr-0 lg:mx-0 lg:max-w-none">
                 <div className="absolute -inset-y-px -left-3 -z-10 w-full origin-bottom-left skew-x-[-30deg] bg-indigo-100 opacity-20 ring-1 ring-inset ring-white" aria-hidden="true"></div>
                 <div className="mx-auto max-w-2xl sm:mx-0 sm:max-w-none">
-                  <img src="https://user-images.githubusercontent.com/19412160/216516470-44592f58-b878-4bdf-8013-afb027c7afc0.png" alt="Product screenshot" width="2432" height="1442" className="-mb-12 w-[57rem] max-w-none rounded-tl-xl bg-gray-800 ring-1 ring-white/10" />
+                  <img src="https://user-images.githubusercontent.com/19412160/216686027-c57f5333-a519-476c-ab99-c7b445eba45b.png" alt="Product screenshot" width="2432" height="1442" className="-mb-12 w-[57rem] max-w-none rounded-tl-xl bg-gray-800 ring-1 ring-white/10" />
                 </div>
                 <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-black/10 sm:rounded-3xl" aria-hidden="true"></div>
               </div>
