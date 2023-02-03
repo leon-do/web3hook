@@ -56,6 +56,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   apiKey        String    @unique @default(cuid())
+  credits       Int       @default(0)
+  paid          Boolean   @default(false)
   posts         Trigger[]
 }
 
