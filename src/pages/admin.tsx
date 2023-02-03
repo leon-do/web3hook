@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Nav from "../components/Nav";
-import { useSession } from "next-auth/react";
+import AdminComponent from "../components/Admin";
+import Footer from "../components/Footer";
 
-export default function Home() {
-  const { data: session } = useSession();
+export default function Admin() {
   return (
     <>
       <Head>
@@ -14,7 +14,8 @@ export default function Home() {
       </Head>
       <main>
         <Nav />
-        <div>Admin</div>
+        <AdminComponent />
+        <Footer />
       </main>
     </>
   );

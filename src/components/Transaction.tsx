@@ -11,7 +11,7 @@ export default function Transaction() {
                   <div className="relative pl-9 text-2xl">
                     <dt className="inline font-semibold text-gray-900">
                       <svg className="absolute top-1 left-1 h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" clip-rule="evenodd" />
+                        <path fillRule="evenodd" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" clipRule="evenodd" />
                       </svg>
                     </dt>
                     <dd className="inline">Select your blockchain and address.</dd>
@@ -20,7 +20,7 @@ export default function Transaction() {
                   <div className="relative pl-9 text-2xl">
                     <dt className="inline font-semibold text-gray-900">
                       <svg className="absolute top-1 left-1 h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" clip-rule="evenodd" />
+                        <path fillRule="evenodd" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" clipRule="evenodd" />
                       </svg>
                     </dt>
                     <dd className="inline">Listen to any transactions from or to that address.</dd>
