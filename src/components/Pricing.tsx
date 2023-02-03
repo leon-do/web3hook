@@ -9,8 +9,7 @@ export default function Pricing() {
             <h1 className="text-5xl font-bold tracking-tight text-gray-900 sm:text-center">Pricing</h1>
             <p className="mt-6 text-2xl leading-8 text-gray-600 sm:text-center">Start building for free. If you like it, pay as you go.</p>
           </div>
-          <div className="mt-12 space-y-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
-            <div className="divide-y divide-gray-200 rounded-lg  shadow-sm">{/* empty shit because I can't CSS */}</div>
+          <div className="mt-12 space-y-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-2">
 
             <div className="divide-y divide-gray-200 rounded-lg border border-gray-200 shadow-sm">
               <div className="p-6">
@@ -20,7 +19,7 @@ export default function Pricing() {
                   <span className="text-4xl font-bold tracking-tight text-gray-900">$0</span>
                   <span className="text-base font-medium text-gray-500">/mo</span>
                 </p>
-                <button onClick={() => signIn(undefined, { callbackUrl: "/admin" })} className="mt-8 block w-full rounded-md border border-indigo-600 bg-indigo-600 py-2 text-center text-xl  text-white hover:bg-indigo-700">
+                <button onClick={() => signIn(undefined, { callbackUrl: "/admin" })} className="mt-8 block w-60 rounded-md border border-orange-600 bg-orange-600 py-2 text-center text-xl  text-white hover:bg-orange-700">
                   Sign Up
                 </button>
               </div>
@@ -73,7 +72,7 @@ export default function Pricing() {
                   <span className="text-4xl font-bold tracking-tight text-gray-900">$🤷</span>
                   <span className="text-base font-medium text-gray-500">/mo</span>
                 </p>
-                <button disabled onClick={() => signIn(undefined, { callbackUrl: "/admin" })} className="mt-8 block w-full rounded-md border border-indigo-300 bg-indigo-300 py-2 text-center text-xl  text-white hover:bg-indigo-300">
+                <button disabled onClick={() => signIn(undefined, { callbackUrl: "/admin" })} className="mt-8 block w-60 rounded-md border border-orange-300 bg-orange-300 py-2 text-center text-xl  text-white hover:bg-orange-300">
                   Coming Soon
                 </button>
               </div>
@@ -104,7 +103,6 @@ export default function Pricing() {
               </div>
             </div>
 
-            <div className="divide-y divide-gray-200 rounded-lg  shadow-sm">{/* empty shit because I can't CSS */}</div>
           </div>
         </div>
       </div>
