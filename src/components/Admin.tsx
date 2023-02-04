@@ -1,15 +1,26 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
+type User = {
+  apiKey: string;
+  credits: number;
+  paid: boolean;
+};
+
 export default function Admin() {
   const [apiKey, setApiKey] = useState<string>();
+  const [credits, setCredits] = useState<number>(0);
+  const [paid, setPaid] = useState<boolean>(false);
   const { data: session } = useSession();
 
   useEffect(() => {
-    fetch("/api/auth/apiKey")
+    fetch("/api/auth/user")
       .then((res) => res.json())
-      .then((json) => json.data)
-      .then((apiKey) => setApiKey(apiKey));
+      .then((user: User) => {
+        setApiKey(user.apiKey);
+        setCredits(user.credits);
+        setPaid(user.paid);
+      });
   }, [session]);
 
   const handleResetApiKey = () => {
@@ -46,23 +57,31 @@ export default function Admin() {
           <div className="mt-12">
             <form className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
               <div className="sm:col-span-2">
-                <label className="block text-sm font-medium text-gray-700">Secret API Key</label>
+                <label className="block text-lg font-medium text-gray-700">Secret API Key:</label>{" "}
                 <div className="m-6">
-                  <code>{apiKey}</code>
+                  <code className="block text-lg font-medium text-gray-700">{apiKey}</code>
+                  {apiKey ? (
+                    <button onClick={() => handleResetApiKey()} type="button" className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none">
+                      Reset API Key
+                    </button>
+                  ) : (
+                    <></>
+                  )}
                 </div>
-                {apiKey ? (
-                  <button onClick={() => handleResetApiKey()} type="button" className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    Reset API Key
-                  </button>
-                ) : (
-                  <></>
-                )}
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-sm font-medium text-gray-700">Credits</label>
+                <label className="block text-lg font-medium text-gray-700">Credits Used:</label>
                 <div className="mt-1">
                   <div className="m-6">
-                    <code>creditshere</code>
+                    <code className="block text-lg font-medium text-gray-700">{credits}</code>
+                  </div>
+                </div>
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-lg font-medium text-gray-700">Paid:</label>
+                <div className="mt-1">
+                  <div className="m-6">
+                    <code className="block text-lg font-medium text-gray-700">{paid.toString()}</code>
                   </div>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import { signIn } from "next-auth/react";
+import { signIn, newUser } from "next-auth/react";
 
 export default function Hero() {
   return (
