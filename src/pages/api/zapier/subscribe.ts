@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (!user) return res.status(400).send({ success: false });
     // define Trigger to insert
     const trigger: Trigger = {
-      userId: user.userId as string,
+      userId: user.id as string,
       webhookUrl: req.body.webhookUrl as string,
       chainId: Number(req.body.chainId) as number,
       address: req.body.address.toLowerCase() as string,

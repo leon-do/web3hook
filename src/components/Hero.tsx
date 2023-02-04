@@ -1,4 +1,5 @@
-import { signIn, newUser } from "next-auth/react";
+import { signIn } from "next-auth/react";
+import Image from "next/image";
 
 export default function Hero() {
   return (
@@ -15,7 +16,7 @@ export default function Hero() {
           </svg>
           <div className="mx-auto max-w-7xl px-6 pt-10 pb-24 sm:pb-32 lg:flex lg:py-40 lg:px-8">
             <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
-              <img className="h-20" src="https://user-images.githubusercontent.com/19412160/216683522-7ca6929d-7eed-4cd8-8952-cd097e9e5b7c.png" alt="Web3Hook" />
+              <Image width="120" height="120" src="https://user-images.githubusercontent.com/19412160/216683522-7ca6929d-7eed-4cd8-8952-cd097e9e5b7c.png" alt="Web3Hook" />
               <h1 className="mt-10 text-6xl font-bold tracking-tight text-gray-900 sm:text-6xl">No Code Web3 Automation</h1>
               <p className="mt-6 text-2xl leading-8 text-gray-600">Integrate nicely with Zapier. Design powerful workflows between web3 and web2 applications without relying on developer resources.</p>
               <div className="mt-10 flex items-center gap-x-6">
@@ -27,7 +28,7 @@ export default function Hero() {
             <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mt-0 lg:mr-0 lg:max-w-none lg:flex-none xl:ml-32">
               <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
                 <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-                  <img src="https://user-images.githubusercontent.com/19412160/216685350-7a8019ed-addd-4d44-a17e-b11b95875ff5.png" alt="App screenshot" width="2432" height="1442" className="w-[76rem] rounded-md shadow-2xl ring-1 ring-gray-900/10" />
+                  <Image src="https://user-images.githubusercontent.com/19412160/216685350-7a8019ed-addd-4d44-a17e-b11b95875ff5.png" alt="App screenshot" width="2432" height="1442" className="w-[76rem] rounded-md shadow-2xl ring-1 ring-gray-900/10" />
                 </div>
               </div>
             </div>

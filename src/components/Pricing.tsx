@@ -24,7 +24,7 @@ export default function Pricing() {
                 </button>
               </div>
               <div className="px-6 pt-6 pb-8">
-                <h3 className="text-l font-medium text-gray-900">What's included</h3>
+                <h3 className="text-l font-medium text-gray-900">What&apos;s included</h3>
                 <ul role="list" className="mt-6 space-y-4">
                   <li className="flex space-x-3">
                     <svg className="h-5 w-5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -77,7 +77,7 @@ export default function Pricing() {
                 </button>
               </div>
               <div className="px-6 pt-6 pb-8">
-                <h3 className="text-l font-medium text-gray-900">What's included</h3>
+                <h3 className="text-l font-medium text-gray-900">What&apos;s included</h3>
                 <ul role="list" className="mt-6 space-y-4">
                   <li className="flex space-x-3">
                     <svg className="h-5 w-5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
