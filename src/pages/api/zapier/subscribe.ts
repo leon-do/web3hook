@@ -8,6 +8,7 @@ type Data = {
   success: boolean;
 };
 
+// https://platform.zapier.com/docs/triggers#subscribe
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
     console.log("/zapier/subscribe");
