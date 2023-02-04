@@ -14,9 +14,10 @@ type Data = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const session = await getServerSession(req, res, authOptions);
   if (!session) return res.status(401).json({ data: "Unauthorized" });
+  if (!session.user?.email) return res.status(401).json({ data: "Unauthorized" });
   const user = await prisma.user.update({
     where: {
-      email: session.user?.email as string,
+      email: session.user.email
     },
     data: {
       apiKey: createId(),
