@@ -19,8 +19,8 @@ export default function Nav() {
             <div className="flex h-16 justify-between">
               <div className="flex">
                 <Link href="/" className="flex flex-shrink-0 items-center">
-                  <Image width="64" height="64" className="block h-12 w-auto lg:hidden" src="https://user-images.githubusercontent.com/19412160/216683522-7ca6929d-7eed-4cd8-8952-cd097e9e5b7c.png" alt="Web3Hook" />
-                  <Image width="64" height="64" className="hidden h-12 w-auto lg:block" src="https://user-images.githubusercontent.com/19412160/216683522-7ca6929d-7eed-4cd8-8952-cd097e9e5b7c.png" alt="Web3Hook" />
+                  <Image width="64" height="64" className="block h-12 w-auto lg:hidden" src="https://user-images.githubusercontent.com/19412160/216763313-d578238d-e21c-4e01-a403-f058245e84bb.png" alt="Web3Hook" />
+                  <Image width="64" height="64" className="hidden h-12 w-auto lg:block" src="https://user-images.githubusercontent.com/19412160/216763313-d578238d-e21c-4e01-a403-f058245e84bb.png" alt="Web3Hook" />
                 </Link>
                 {/* <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                   <Link href="/" className="inline-flex items-center border-b-2 border-orange-500 px-1 pt-1 text-sm font-medium text-gray-900">
