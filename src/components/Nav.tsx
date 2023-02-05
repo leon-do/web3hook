@@ -22,14 +22,14 @@ export default function Nav() {
                   <Image width="64" height="64" className="block h-12 w-auto lg:hidden" src="https://user-images.githubusercontent.com/19412160/216763313-d578238d-e21c-4e01-a403-f058245e84bb.png" alt="Web3Hook" />
                   <Image width="64" height="64" className="hidden h-12 w-auto lg:block" src="https://user-images.githubusercontent.com/19412160/216763313-d578238d-e21c-4e01-a403-f058245e84bb.png" alt="Web3Hook" />
                 </Link>
-                {/* <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  <Link href="/" className="inline-flex items-center border-b-2 border-orange-500 px-1 pt-1 text-sm font-medium text-gray-900">
+                <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+                  {/* <Link href="/" className="inline-flex items-center border-b-2 border-orange-500 px-1 pt-1 text-sm font-medium text-gray-900">
                     Home
-                  </a>
-                  <Link href="#" className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                  </a> */}
+                  <Link href="https://docs.web3hook.com" className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
                     Docs
-                  </a>
-                </div> */}
+                  </Link>
+                </div>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
                 {/* Profile dropdown */}
@@ -38,7 +38,7 @@ export default function Nav() {
                     <div>
                       <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
                         <span className="sr-only">Open user menu</span>
-                        <Image  width="64" height="64" className="h-8 w-8 rounded-full" src={session?.user?.image || "https://user-images.githubusercontent.com/19412160/216397505-8a5eb415-48d0-4c15-8ca5-9cc0f4cff4d5.png"} alt="" />
+                        <Image width="64" height="64" className="h-8 w-8 rounded-full" src={session?.user?.image || "https://user-images.githubusercontent.com/19412160/216397505-8a5eb415-48d0-4c15-8ca5-9cc0f4cff4d5.png"} alt="" />
                       </Menu.Button>
                     </div>
                     <Transition as={Fragment} enter="transition ease-out duration-200" enterFrom="transform opacity-0 scale-95" enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100" leaveTo="transform opacity-0 scale-95">
@@ -80,16 +80,16 @@ export default function Nav() {
             <div className="space-y-1 pt-2 pb-3">
               {/* <Disclosure.Button as="a" href="#" className="block border-l-4 border-orange-500 bg-orange-50 py-2 pl-3 pr-4 text-base font-medium text-orange-700">
                 Home
-              </Disclosure.Button>
-              <Disclosure.Button as="a" href="#" className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700">
-                Docs
               </Disclosure.Button> */}
+              <Disclosure.Button as="a" href="https://docs.web3hook.com" className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700">
+                Docs
+              </Disclosure.Button>
             </div>
             {session ? (
               <div className="border-t border-gray-200 pt-4 pb-3">
                 <div className="flex items-center px-4">
                   <div className="flex-shrink-0">
-                    <Image className="h-10 w-10 rounded-full" src={session?.user?.image || "https://user-images.githubusercontent.com/19412160/216397505-8a5eb415-48d0-4c15-8ca5-9cc0f4cff4d5.png"} alt="" />
+                    <Image width="64" height="64" className="h-10 w-10 rounded-full" src={session?.user?.image || "https://user-images.githubusercontent.com/19412160/216397505-8a5eb415-48d0-4c15-8ca5-9cc0f4cff4d5.png"} alt="" />
                   </div>
                 </div>
                 <div className="mt-3 space-y-1">
