@@ -10,7 +10,6 @@ export default function Pricing() {
             <p className="mt-6 text-2xl leading-8 text-gray-600 sm:text-center">Start building for free. If you like it, pay as you go.</p>
           </div>
           <div className="mt-12 space-y-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-2">
-
             <div className="divide-y divide-gray-200 rounded-lg border border-gray-200 shadow-sm">
               <div className="p-6">
                 <h2 className="text-3xl font-medium leading-6 text-gray-900">Hobby</h2>
@@ -90,19 +89,11 @@ export default function Pricing() {
                     <svg className="h-5 w-5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                       <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
                     </svg>
-                    <span className="text-l text-gray-500">100,000 credits</span>
-                  </li>
-
-                  <li className="flex space-x-3">
-                    <svg className="h-5 w-5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-l text-gray-500">Additonal credits cost $--</span>
+                    <span className="text-l text-gray-500">Additonal credits cost 🤷</span>
                   </li>
                 </ul>
               </div>
             </div>
-
           </div>
         </div>
       </div>
