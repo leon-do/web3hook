@@ -23,10 +23,10 @@ export default function Nav() {
                   <Image width="64" height="64" className="hidden h-12 w-auto lg:block" src="https://user-images.githubusercontent.com/19412160/216763313-d578238d-e21c-4e01-a403-f058245e84bb.png" alt="Web3Hook" />
                 </Link>
                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  {/* <Link href="/" className="inline-flex items-center border-b-2 border-orange-500 px-1 pt-1 text-sm font-medium text-gray-900">
+                  {/* <Link href="/" className="inline-flex items-center border-b-2 border-orange-500 px-1 pt-1 text-lg font-medium text-gray-900">
                     Home
                   </a> */}
-                  <Link href="https://docs.web3hook.com" className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                  <Link href="https://docs.web3hook.com" className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-lg font-medium text-gray-500 hover:border-orange-600 hover:text-gray-700">
                     Docs
                   </Link>
                 </div>
@@ -36,7 +36,7 @@ export default function Nav() {
                 {session ? (
                   <Menu as="div" className="relative ml-3">
                     <div>
-                      <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+                      <Menu.Button className="flex rounded-full bg-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
                         <span className="sr-only">Open user menu</span>
                         <Image width="64" height="64" className="h-8 w-8 rounded-full" src={session?.user?.image || "https://user-images.githubusercontent.com/19412160/216397505-8a5eb415-48d0-4c15-8ca5-9cc0f4cff4d5.png"} alt="" />
                       </Menu.Button>
@@ -45,14 +45,14 @@ export default function Nav() {
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <Menu.Item>
                           {({ active }) => (
-                            <Link href="/admin" className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700")}>
+                            <Link href="/admin" className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-lg text-gray-700")}>
                               Admin
                             </Link>
                           )}
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <div onClick={() => signOut({ callbackUrl: "/" })} className={classNames(active ? "bg-gray-100" : "", "cursor-pointer block px-4 py-2 text-sm text-gray-700")}>
+                            <div onClick={() => signOut({ callbackUrl: "/" })} className={classNames(active ? "bg-gray-100" : "", "cursor-pointer block px-4 py-2 text-lg text-gray-700")}>
                               Sign out
                             </div>
                           )}
