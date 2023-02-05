@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ethers } from "ethers";
 import { PrismaClient } from "@prisma/client";
+import { User } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -39,8 +40,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     } else {
       val = await contract[func](...args.split(",").map((arg: string) => arg.trim()));
     }
+    incrementCredits(user);
     return res.status(200).send({ data: val.toString() });
   } catch (error: any) {
     return res.status(400).json({ data: error.message as string });
   }
+}
+
+async function incrementCredits(_user: User): Promise<User> {
+  return await prisma.user.update({
+    where: {
+      id: _user.id,
+    },
+    data: {
+      credits: {
+        increment: 1,
+      },
+    },
+  });
 }
