@@ -9,8 +9,8 @@ type User = {
 
 export default function Admin() {
   const [apiKey, setApiKey] = useState<string>();
-  const [credits, setCredits] = useState<number>(0);
-  const [paid, setPaid] = useState<boolean>(false);
+  const [credits, setCredits] = useState<number>();
+  const [paid, setPaid] = useState<boolean>();
   const { data: session } = useSession();
 
   useEffect(() => {
