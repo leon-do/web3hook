@@ -23,11 +23,11 @@ export default function Nav() {
                   <Image width="64" height="64" className="hidden h-12 w-auto lg:block" src="https://user-images.githubusercontent.com/19412160/216763313-d578238d-e21c-4e01-a403-f058245e84bb.png" alt="Web3Hook" />
                 </Link>
                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  {/* <Link href="/" className="inline-flex items-center border-b-2 border-orange-500 px-1 pt-1 text-sm font-medium text-gray-900">
-                    Home
-                  </a> */}
                   <Link href="https://docs.web3hook.com" className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-lg font-medium text-gray-500 hover:border-orange-600 hover:text-gray-700">
                     Docs
+                  </Link>
+                  <Link href="https://zapier.com/developer/public-invite/175846/9abda33206f333dd54ce325ca1adfc64/" className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-lg font-medium text-gray-500 hover:border-orange-600 hover:text-gray-700">
+                    Zapier
                   </Link>
                 </div>
               </div>
@@ -78,11 +78,11 @@ export default function Nav() {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 pt-2 pb-3">
-              {/* <Disclosure.Button as="a" href="#" className="block border-l-4 border-orange-500 bg-orange-50 py-2 pl-3 pr-4 text-base font-medium text-orange-700">
-                Home
-              </Disclosure.Button> */}
               <Disclosure.Button as="a" href="https://docs.web3hook.com" className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700">
                 Docs
+              </Disclosure.Button>
+              <Disclosure.Button as="a" href="https://zapier.com/developer/public-invite/175846/9abda33206f333dd54ce325ca1adfc64/" className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700">
+               Zapier 
               </Disclosure.Button>
             </div>
             {session ? (
