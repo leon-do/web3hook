@@ -81,7 +81,7 @@ export default function Admin() {
                 <label className="block text-lg font-medium text-gray-700">Paid:</label>
                 <div className="mt-1">
                   <div className="m-6">
-                    <code className="block text-lg font-medium text-gray-700">{paid.toString()}</code>
+                    <code className="block text-lg font-medium text-gray-700">{paid?.toString()}</code>
                   </div>
                 </div>
               </div>
