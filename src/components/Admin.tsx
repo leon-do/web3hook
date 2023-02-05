@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type User = {
   apiKey: string;
@@ -86,6 +87,11 @@ export default function Admin() {
                 </div>
               </div>
             </form>
+            <div className="mt-12">
+              <Link href="https://zapier.com/developer/public-invite/175846/9abda33206f333dd54ce325ca1adfc64/" target="_blank" rel="noreferrer" className="w-60 text-center text-l items-center rounded-md border border-transparent bg-orange-600 px-6 py-3 text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+                Start Building
+              </Link>
+            </div>
           </div>
         </div>
       </div>
