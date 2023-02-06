@@ -26,7 +26,7 @@ export default function Admin() {
 
   const handleResetApiKey = () => {
     setApiKey("please wait...");
-    fetch("/api/auth/newKey")
+    fetch("/api/auth/resetKey")
       .then((res) => res.json())
       .then((json) => json.data)
       .then((apiKey) => setApiKey(apiKey));
@@ -58,7 +58,7 @@ export default function Admin() {
           <div className="mt-12">
             <form className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
               <div className="sm:col-span-2">
-                <label className="block text-lg font-medium text-gray-700">Secret API Key:</label>{" "}
+                <label className="block text-lg font-medium text-gray-700">API Key</label>{" "}
                 <div className="m-6">
                   <code className="block text-lg font-medium text-gray-700">{apiKey}</code>
                   {apiKey ? (
@@ -71,7 +71,12 @@ export default function Admin() {
                 </div>
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-lg font-medium text-gray-700">Credits Used:</label>
+                <label className="block text-lg font-medium text-gray-700">
+                  Credits Used &nbsp;
+                  <Link href="https://docs.web3hook.com/definitions#credits" target="_blank" rel="noreferrer">
+                    ℹ️
+                  </Link>
+                </label>
                 <div className="mt-1">
                   <div className="m-6">
                     <code className="block text-lg font-medium text-gray-700">{credits}</code>
@@ -79,7 +84,7 @@ export default function Admin() {
                 </div>
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-lg font-medium text-gray-700">Paid:</label>
+                <label className="block text-lg font-medium text-gray-700">Paid</label>
                 <div className="mt-1">
                   <div className="m-6">
                     <code className="block text-lg font-medium text-gray-700">{paid?.toString()}</code>
