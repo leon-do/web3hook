@@ -58,7 +58,12 @@ export default function Admin() {
           <div className="mt-12">
             <form className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
               <div className="sm:col-span-2">
-                <label className="block text-lg font-medium text-gray-700">API Key</label>{" "}
+                <label className="block text-lg font-medium text-gray-700">
+                  API Key &nbsp;
+                  <Link href="https://docs.web3hook.com/api-key" target="_blank" rel="noreferrer">
+                    ℹ️
+                  </Link>
+                </label>
                 <div className="m-6">
                   <code className="block text-lg font-medium text-gray-700">{apiKey}</code>
                   {apiKey ? (
