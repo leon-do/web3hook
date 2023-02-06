@@ -20,7 +20,7 @@ export default function Hero() {
               <h1 className="mt-10 text-6xl font-bold tracking-tight text-gray-900 sm:text-6xl">No Code Web3 Automation</h1>
               <p className="mt-6 text-2xl leading-8 text-gray-600">Integrate nicely with Zapier. Design powerful workflows between web3 and web2 applications without relying on developer resources.</p>
               <div className="mt-10 flex items-center gap-x-6">
-                <button onClick={() => signIn(undefined, { callbackUrl: "/admin" })} className="w-60 text-center text-xl items-center rounded-md border border-transparent bg-orange-600 px-6 py-3 text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+                <button onClick={() => signIn(undefined, { callbackUrl: "/dashboard" })} className="w-60 text-center text-xl items-center rounded-md border border-transparent bg-orange-600 px-6 py-3 text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
                   Sign Up
                 </button>
               </div>

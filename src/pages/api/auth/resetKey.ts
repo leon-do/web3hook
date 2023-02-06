@@ -10,7 +10,7 @@ type Data = {
   data: string;
 };
 
-// Reset new api keys for user when they click "Reset API Key" button on /admin page
+// Reset new api keys for user when they click "Reset API Key" button on /dashboard page
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const session = await getServerSession(req, res, authOptions);
   if (!session) return res.status(401).json({ data: "Unauthorized" });

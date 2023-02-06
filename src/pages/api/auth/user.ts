@@ -11,7 +11,7 @@ type User = {
   paid: boolean;
 };
 
-// Gets user data for /admin page
+// Gets user data for /dashboard page
 export default async function handler(req: NextApiRequest, res: NextApiResponse<User>) {
   const session = await getServerSession(req, res, authOptions);
   if (!session) return res.status(401).json({ apiKey: "", credits: 0, paid: false });

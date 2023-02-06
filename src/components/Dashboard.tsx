@@ -8,7 +8,7 @@ type User = {
   paid: boolean;
 };
 
-export default function Admin() {
+export default function Dashboard() {
   const [apiKey, setApiKey] = useState<string>();
   const [credits, setCredits] = useState<number>();
   const [paid, setPaid] = useState<boolean>();
@@ -53,7 +53,7 @@ export default function Admin() {
             <rect width="404" height="404" fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)" />
           </svg>
           <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Admin</h2>
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Dashboard</h2>
           </div>
           <div className="mt-12">
             <form className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
