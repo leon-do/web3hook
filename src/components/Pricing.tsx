@@ -13,7 +13,7 @@ export default function Pricing() {
             <div className="divide-y divide-gray-200 rounded-lg border border-gray-200 shadow-sm">
               <div className="p-6">
                 <h2 className="text-3xl font-medium leading-6 text-gray-900">Hobby</h2>
-                <p className="mt-4 text-l text-gray-500">All the basics for tinkering.</p>
+                <p className="mt-4 text-l text-gray-500">All the basics.</p>
                 <p className="mt-8">
                   <span className="text-4xl font-bold tracking-tight text-gray-900">$0</span>
                   <span className="text-base font-medium text-gray-500">/mo</span>
