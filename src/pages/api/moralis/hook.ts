@@ -59,14 +59,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (!trigger.abi || trigger.abi.length === 0) {
       const transactionResponse = getTransactionResponse(moralisBody);
       console.log("transactionResponse", transactionResponse);
-      axios.post(trigger.webhookUrl, transactionResponse);
+      await axios.post(trigger.webhookUrl, transactionResponse);
     }
     // if abi then POST event
     if (trigger.abi) {
       const eventResponse: HookResponse = getEventResponse(trigger.abi, moralisBody);
-      axios.post(trigger.webhookUrl, eventResponse);
+      await axios.post(trigger.webhookUrl, eventResponse);
     }
-    res.status(200).json({ success: true });
+    return res.status(200).json({ success: true });
   } catch {
     return res.status(200).send({ success: false });
   }
