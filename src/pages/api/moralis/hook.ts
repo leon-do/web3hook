@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     const moralisBody: MoralisBody = req.body;
     // if not confirmed
-    if (!moralisBody.confirmed) return res.status(200).json({ success: true });
+    if (moralisBody.confirmed === false) return res.status(200).json({ success: true });
     // query streamId from trigger
     const trigger = await prisma.trigger.findUnique({ where: { streamId: moralisBody.streamId } });
     // if no trigger, return error
