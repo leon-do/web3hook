@@ -2,9 +2,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import Moralis from "moralis";
 
-Moralis.start({
-  apiKey: process.env.MORALIS_API_KEY,
-});
+if (!Moralis.Core.isStarted) {
+  Moralis.start({
+    apiKey: process.env.MORALIS_API_KEY,
+  });
+}
 
 const prisma = new PrismaClient();
 
@@ -15,10 +17,11 @@ type Data = {
 // https://platform.zapier.com/docs/triggers#unsubscribe
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    console.log("/zapier/unsubscribe");
+    console.log("/zapier/unsubscribe", req.body);
     if (!req.body.webhookUrl) return res.status(400).send({ success: false });
     // query database for user with api_key
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
+    console.log("user", user)
     // if no user, return error
     if (!user) return res.status(400).send({ success: false });
     // respond true

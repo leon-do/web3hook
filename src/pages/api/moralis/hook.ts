@@ -46,8 +46,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   console.log("/moralis/hook");
   try {
     const moralisBody: MoralisBody = req.body;
-    // if not confirmed
-    if (moralisBody.confirmed === false) return res.status(200).json({ success: true });
+    // only send pending txs
+    if (moralisBody.confirmed) return res.status(200).json({ success: true });
     // query streamId from trigger
     const trigger = await prisma.trigger.findUnique({ where: { streamId: moralisBody.streamId } });
     // if no trigger, return error
@@ -75,7 +75,7 @@ function getTransactionResponse(_moralisBody: MoralisBody): HookResponse {
     toAddress: _moralisBody.txs[0].toAddress,
     value: _moralisBody.txs[0].value,
     chainId: parseInt(_moralisBody.chainId, 16).toString(),
-    data: _moralisBody.logs[0].data,
+    data: _moralisBody.logs[0]?.data || "",
     gasLimit: _moralisBody.txs[0].gas,
   };
 }

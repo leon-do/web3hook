@@ -4,9 +4,11 @@ import { Trigger } from "@prisma/client";
 import Moralis from "moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
 
-Moralis.start({
-  apiKey: process.env.MORALIS_API_KEY,
-});
+if (!Moralis.Core.isStarted) {
+  Moralis.start({
+    apiKey: process.env.MORALIS_API_KEY,
+  });
+}
 
 const prisma = new PrismaClient();
 
