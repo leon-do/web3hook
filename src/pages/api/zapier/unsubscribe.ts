@@ -1,5 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
+import Moralis from "moralis";
+
+Moralis.start({
+  apiKey: process.env.MORALIS_API_KEY,
+});
 
 const prisma = new PrismaClient();
 
@@ -16,9 +21,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
     // if no user, return error
     if (!user) return res.status(400).send({ success: false });
+    // respond true
+    res.status(200).send({ success: true });
     // delete webhook in database
-    await prisma.trigger.delete({ where: { webhookUrl: req.body.webhookUrl } });
-    return res.status(200).send({ success: true });
+    const trigger = await prisma.trigger.delete({ where: { webhookUrl: req.body.webhookUrl } });
+    // delete webhook in moralis
+    Moralis.Streams.delete({ id: trigger.streamId || "" });
   } catch {
     return res.status(400).send({ success: false });
   }

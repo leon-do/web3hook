@@ -79,6 +79,7 @@ model Trigger {
   userId     String
   chainId    Int
   user       User    @relation(fields: [userId], references: [id])
+  streamId   String? @unique // from Moralis
 
   @@index([userId])
 }
