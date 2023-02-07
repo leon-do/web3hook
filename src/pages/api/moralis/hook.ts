@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ethers } from "ethers";
 import { PrismaClient } from "@prisma/client";
+import axios from "axios";
 
 const prisma = new PrismaClient();
 
@@ -58,12 +59,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (!trigger.abi || trigger.abi.length === 0) {
       const transactionResponse = getTransactionResponse(moralisBody);
       console.log("transactionResponse", transactionResponse);
-      fetch(trigger.webhookUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(transactionResponse) });
+      axios.post(trigger.webhookUrl, transactionResponse);
     }
     // if abi then POST event
     if (trigger.abi) {
       const eventResponse: HookResponse = getEventResponse(trigger.abi, moralisBody);
-      fetch(trigger.webhookUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(eventResponse) });
+      axios.post(trigger.webhookUrl, eventResponse);
     }
     res.status(200).json({ success: true });
   } catch {
