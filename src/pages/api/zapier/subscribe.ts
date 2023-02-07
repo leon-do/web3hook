@@ -29,6 +29,7 @@ type Body = {
   chainId: string;
   address: string;
   abi: string;
+  event: string;
 };
 
 // https://platform.zapier.com/docs/triggers#subscribe
@@ -46,6 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       chainId: Number(req.body.chainId) as number,
       address: req.body.address.toLowerCase() as string,
       abi: req.body.abi as string,
+      event: req.body.event as string,
       streamId: await moralisAdd(req.body),
     };
     // insert to transaction database
@@ -80,7 +82,7 @@ async function moralisAdd(_body: Body): Promise<string> {
       description: _body.webhookUrl,
       tag: _body.webhookUrl,
       abi: !_body.abi ? undefined : JSON.parse(_body.abi),
-      topic0: !_body.abi ? undefined : getTopics(JSON.parse(_body.abi)),
+      topic0: !_body.abi ? undefined : [_body.event],
       webhookUrl: "https://web3hook.com/api/moralis/hook",
       includeContractLogs: true,
       includeNativeTxs: true,
@@ -95,13 +97,4 @@ async function moralisAdd(_body: Body): Promise<string> {
   } catch {
     return "";
   }
-}
-
-function getTopics(_abi: ABI[]): string[] {
-  const events = _abi.filter((event) => event.type === "event");
-  const topics = events.map((event) => {
-    const inputs = event.inputs.map((input) => input.type).join(",");
-    return `${event.name}(${inputs})`;
-  });
-  return topics;
 }
