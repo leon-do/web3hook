@@ -47,18 +47,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   console.log("/moralis/hook", req.body);
   try {
     const moralisBody: MoralisBody = req.body;
-    console.log("moralisBody.confirmed", moralisBody.confirmed);
     // only send pending txs
     if (moralisBody.confirmed) return res.status(200).json({ success: true });
     // query streamId from trigger
     const trigger = await prisma.trigger.findUnique({ where: { streamId: moralisBody.streamId } });
-    console.log("trigger", trigger);
     // if no trigger, return error
     if (!trigger) return res.status(200).send({ success: false });
     // if no abi then POST transaction
     if (!trigger.abi || trigger.abi.length === 0) {
       const transactionResponse = getTransactionResponse(moralisBody);
-      console.log("transactionResponse", transactionResponse);
       await axios.post(trigger.webhookUrl, transactionResponse);
     }
     // if abi then POST event
