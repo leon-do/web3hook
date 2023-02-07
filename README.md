@@ -16,8 +16,8 @@ Includes:
 Create `.env` file
 
 ```
-# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
-DATABASE_URL="mysql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+cp .env.example
+vi .env
 ```
 
 To create table
