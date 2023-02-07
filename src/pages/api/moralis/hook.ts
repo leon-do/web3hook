@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import axios from "axios";
 import { ethers } from "ethers";
 import { PrismaClient } from "@prisma/client";
-import axios from "axios";
+import { Trigger } from "@prisma/client";
+import { User } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -57,11 +59,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (!trigger.abi || trigger.abi.length === 0) {
       const transactionResponse = getTransactionResponse(moralisBody);
       await axios.post(trigger.webhookUrl, transactionResponse);
+      await incrementCredits(trigger);
     }
     // if abi then POST event
     if (trigger.abi) {
       const eventResponse: HookResponse = getEventResponse(trigger.abi, moralisBody);
       await axios.post(trigger.webhookUrl, eventResponse);
+      await incrementCredits(trigger);
     }
     return res.status(200).json({ success: true });
   } catch {
@@ -106,4 +110,17 @@ function getEventResponse(_abi: string, _moralisBody: MoralisBody): HookResponse
     hookResponse[`${eventName}_${key}`] = eventSignature.args[key].toString();
   }
   return hookResponse;
+}
+
+async function incrementCredits(_trigger: Trigger): Promise<User> {
+  return await prisma.user.update({
+    where: {
+      id: _trigger.userId,
+    },
+    data: {
+      credits: {
+        increment: 1,
+      },
+    },
+  });
 }
