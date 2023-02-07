@@ -79,7 +79,7 @@ async function moralisAdd(_body: Body): Promise<string> {
       tag: _body.webhookUrl,
       abi: !_body.abi ? undefined : JSON.parse(_body.abi),
       topic0: !_body.abi ? undefined : getTopics(JSON.parse(_body.abi)),
-      webhookUrl: "https://web3hook.com/api/moralis",
+      webhookUrl: "https://web3hook.com/api/moralis/hook",
       includeContractLogs: true,
       includeNativeTxs: true,
       includeInternalTxs: true,
