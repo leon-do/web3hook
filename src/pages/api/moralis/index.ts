@@ -43,24 +43,28 @@ type Data = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const moralisBody: MoralisBody = JSON.parse(req.body);
-  // if not confirmed
-  if (!moralisBody.confirmed) return res.status(200).json({ success: true });
-  // query streamId from trigger
-  const trigger = await prisma.trigger.findUnique({ where: { streamId: moralisBody.streamId } });
-  // if no trigger, return error
-  if (!trigger) return res.status(400).send({ success: false });
-  // if no abi then POST transaction
-  if (!trigger.abi || trigger.abi.length === 0) {
-    const transactionResponse = getTransactionResponse(moralisBody);
-    fetch(trigger.webhookUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(transactionResponse) });
+  try {
+    const moralisBody: MoralisBody = req.body;
+    // if not confirmed
+    if (!moralisBody.confirmed) return res.status(200).json({ success: true });
+    // query streamId from trigger
+    const trigger = await prisma.trigger.findUnique({ where: { streamId: moralisBody.streamId } });
+    // if no trigger, return error
+    if (!trigger) return res.status(400).send({ success: false });
+    // if no abi then POST transaction
+    if (!trigger.abi || trigger.abi.length === 0) {
+      const transactionResponse = getTransactionResponse(moralisBody);
+      fetch(trigger.webhookUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(transactionResponse) });
+    }
+    // if abi then POST event
+    if (trigger.abi) {
+      const eventResponse: HookResponse = getEventResponse(trigger.abi, moralisBody);
+      fetch(trigger.webhookUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(eventResponse) });
+    }
+    res.status(200).json({ success: true });
+  } catch {
+    return res.status(200).send({ success: false });
   }
-  // if abi then POST event
-  if (trigger.abi) {
-    const eventResponse: HookResponse = getEventResponse(trigger.abi, moralisBody);
-    fetch(trigger.webhookUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(eventResponse) });
-  }
-  res.status(200).json({ success: true });
 }
 
 function getTransactionResponse(_moralisBody: MoralisBody): HookResponse {
