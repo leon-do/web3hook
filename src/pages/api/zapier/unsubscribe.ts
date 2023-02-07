@@ -17,19 +17,16 @@ type Data = {
 // https://platform.zapier.com/docs/triggers#unsubscribe
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    console.log("/zapier/unsubscribe", req.body);
+    console.log("/zapier/unsubscribe");
     if (!req.body.webhookUrl) return res.status(400).send({ success: false });
     // query database for user with api_key
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
-    console.log("user", user);
     // if no user, return error
     if (!user) return res.status(400).send({ success: false });
     // delete webhook in database
     const trigger = await prisma.trigger.delete({ where: { webhookUrl: req.body.webhookUrl } });
-    console.log("trigger", trigger);
     // delete webhook in moralis
-    const moralisResponse = await Moralis.Streams.delete({ id: trigger.streamId || "" });
-    console.log("moralisResponse", moralisResponse);
+    await Moralis.Streams.delete({ id: trigger.streamId || "" });
     // respond true
     res.status(200).send({ success: true });
   } catch {
