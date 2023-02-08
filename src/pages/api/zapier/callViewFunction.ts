@@ -8,6 +8,17 @@ const prisma = new PrismaClient();
 const providers: Providers = {
   "1": new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/eth"),
   "5": new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/eth_goerli"),
+  "137": new ethers.providers.JsonRpcProvider("https://rpc-mainnet.maticvigil.com"),
+  "80001": new ethers.providers.JsonRpcProvider("https://rpc-mumbai.maticvigil.com"),
+  "56": new ethers.providers.JsonRpcProvider("https://bsc-dataseed.binance.org"),
+  "97": new ethers.providers.JsonRpcProvider("https://data-seed-prebsc-1-s1.binance.org:8545"),
+  "43114": new ethers.providers.JsonRpcProvider("https://api.avax.network/ext/bc/C/rpc"),
+  "43113": new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc"),
+  "250": new ethers.providers.JsonRpcProvider("https://rpcapi.fantom.network"),
+  "25": new ethers.providers.JsonRpcProvider("https://evm.cronos.org"),
+  "338": new ethers.providers.JsonRpcProvider("https://evm-t3.cronos.org"),
+  "11297108109": new ethers.providers.JsonRpcProvider("https://palm-mainnet.public.blastapi.io"),
+  "42161": new ethers.providers.JsonRpcProvider("https://arb1.arbitrum.io/rpc"),
   "5001": new ethers.providers.JsonRpcProvider("https://rpc.testnet.mantle.xyz"),
 };
 

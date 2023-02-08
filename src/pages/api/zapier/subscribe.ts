@@ -16,14 +16,6 @@ type Data = {
   success: boolean;
 };
 
-type ABI = {
-  name: string;
-  type: string;
-  inputs: {
-    type: string;
-  }[];
-};
-
 type Body = {
   webhookUrl: string;
   chainId: string;
