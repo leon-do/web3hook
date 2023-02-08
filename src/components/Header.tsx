@@ -12,7 +12,7 @@ export default function Header() {
         description: "No Code Web3 Automation",
         images: [
           {
-            url: "https://user-images.githubusercontent.com/19412160/216763313-d578238d-e21c-4e01-a403-f058245e84bb.png",
+            url: "https://github.com/Web3Hook/.github/raw/main/logo.png",
             width: 500,
             height: 500,
             alt: "Web3Hook",
