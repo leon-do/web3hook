@@ -46,12 +46,12 @@ type Data = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  console.log("/moralis/hook", req.body);
+  console.log("/moralis/hook");
   try {
     const moralisBody: MoralisBody = req.body;
     // only send pending txs
     if (moralisBody.confirmed) return res.status(200).json({ success: true });
-    // query streamId from trigger
+    // get trigger with moralis' streamId
     const trigger = await prisma.trigger.findUnique({ where: { streamId: moralisBody.streamId } });
     // if no trigger, return error
     if (!trigger) return res.status(200).send({ success: false });
@@ -62,8 +62,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       await incrementCredits(trigger);
     }
     // if abi then POST event
-    if (trigger.abi) {
-      const eventResponse: HookResponse = getEventResponse(trigger.abi, moralisBody);
+    if (trigger.abi && trigger.event) {
+      const eventResponse: HookResponse = getEventResponse(trigger, moralisBody);
       await axios.post(trigger.webhookUrl, eventResponse);
       await incrementCredits(trigger);
     }
@@ -85,16 +85,15 @@ function getTransactionResponse(_moralisBody: MoralisBody): HookResponse {
   };
 }
 
-function getEventResponse(_abi: string, _moralisBody: MoralisBody): HookResponse {
+function getEventResponse(_trigger: Trigger, _moralisBody: MoralisBody): HookResponse {
+  if (!_trigger.abi || !_trigger.event) throw new Error("No ABI | No Event");
   const hookResponse: HookResponse = { transactionHash: _moralisBody.txs[0].hash };
-  const iface = new ethers.utils.Interface(_abi);
+  const iface = new ethers.utils.Interface(_trigger.abi);
   // create empty object for each event
-  for (const key in iface.events) {
-    const eventName = iface.events[key].name;
-    iface.events[key].inputs.forEach((input) => {
-      hookResponse[`${eventName}_${input.name}`] = null;
-    });
-  }
+  const eventName = iface.events[_trigger.event].name;
+  iface.events[_trigger.event].inputs.forEach((input) => {
+    hookResponse[`${eventName}_${input.name}`] = null;
+  });
   // convert topic0, topic1 etc to array
   let topics = [];
   for (let topic of ["topic0", "topic1", "topic2", "topic3"]) {
