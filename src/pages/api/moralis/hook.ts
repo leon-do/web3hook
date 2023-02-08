@@ -51,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const moralisBody: MoralisBody = req.body;
     // only send pending txs
     if (moralisBody.confirmed) return res.status(200).json({ success: true });
-    // get trigger with moralis' streamId
+    // get trigger from database
     const trigger = await queryDatabase(moralisBody);
     // if no trigger, return error
     if (!trigger) return res.status(200).send({ success: false });
@@ -74,14 +74,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 }
 
 async function queryDatabase(_moralisBody: MoralisBody): Promise<Trigger | null> {
+  // find trigger with streamId where user has less than 1000 credits or user is paid
   return await prisma.trigger.findFirst({
     where: {
       streamId: _moralisBody.streamId,
-      user: {
-        credits: {
-          lte: 1000,
+      OR: [
+        {
+          user: {
+            credits: {
+              lte: 1000,
+            },
+          },
         },
-      },
+        {
+          user: {
+            paid: true,
+          },
+        },
+      ],
     },
   });
 }
