@@ -25,7 +25,7 @@ export default function Transaction() {
                         <path fillRule="evenodd" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" clipRule="evenodd" />
                       </svg>
                     </dt>
-                    <dd className="inline">Listen to any transactions from or to that address.</dd>
+                    <dd className="inline">Listen to transactions from or to that address.</dd>
                   </div>
 
                   <div className="relative pl-9 text-2xl">
@@ -34,7 +34,7 @@ export default function Transaction() {
                         <path d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
                       </svg>
                     </dt>
-                    <dd className="inline">Trigger any web2 action.</dd>
+                    <dd className="inline">Trigger web2 actions.</dd>
                   </div>
                 </dl>
               </div>

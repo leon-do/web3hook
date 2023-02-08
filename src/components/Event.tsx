@@ -25,7 +25,7 @@ export default function Event() {
                         <path fillRule="evenodd" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" clipRule="evenodd" />
                       </svg>
                     </dt>
-                    <dd className="inline">Listen to any events emmited from that contract.</dd>
+                    <dd className="inline">Listen to events emmited from that contract.</dd>
                   </div>
 
                   <div className="relative pl-9 text-2xl">
