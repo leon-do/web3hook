@@ -52,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // only send pending txs
     if (moralisBody.confirmed) return res.status(200).json({ success: true });
     // get trigger with moralis' streamId
-    const trigger = await prisma.trigger.findUnique({ where: { streamId: moralisBody.streamId } });
+    const trigger = await queryDatabase(moralisBody);
     // if no trigger, return error
     if (!trigger) return res.status(200).send({ success: false });
     // if no abi then POST transaction
@@ -119,6 +119,19 @@ async function incrementCredits(_trigger: Trigger): Promise<User> {
     data: {
       credits: {
         increment: 1,
+      },
+    },
+  });
+}
+
+async function queryDatabase(_moralisBody: MoralisBody): Promise<Trigger | null> {
+  return await prisma.trigger.findFirst({
+    where: {
+      streamId: _moralisBody.streamId,
+      user: {
+        credits: {
+          lte: 1000,
+        },
       },
     },
   });
