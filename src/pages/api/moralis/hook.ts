@@ -74,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 }
 
 async function queryDatabase(_moralisBody: MoralisBody): Promise<Trigger | null> {
-  // find trigger with streamId where user has less than 1000 credits or user is paid
+  //  SELECT * FROM "Trigger" WHERE "streamId" = '0x1' AND ("user"."credits" <= 1000 OR "user"."paid" = true)
   return await prisma.trigger.findFirst({
     where: {
       streamId: _moralisBody.streamId,
