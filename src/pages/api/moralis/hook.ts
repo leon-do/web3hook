@@ -73,6 +73,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 }
 
+async function queryDatabase(_moralisBody: MoralisBody): Promise<Trigger | null> {
+  return await prisma.trigger.findFirst({
+    where: {
+      streamId: _moralisBody.streamId,
+      user: {
+        credits: {
+          lte: 1000,
+        },
+      },
+    },
+  });
+}
+
 function getTransactionResponse(_moralisBody: MoralisBody): HookResponse {
   return {
     transactionHash: _moralisBody.txs[0].hash,
@@ -119,19 +132,6 @@ async function incrementCredits(_trigger: Trigger): Promise<User> {
     data: {
       credits: {
         increment: 1,
-      },
-    },
-  });
-}
-
-async function queryDatabase(_moralisBody: MoralisBody): Promise<Trigger | null> {
-  return await prisma.trigger.findFirst({
-    where: {
-      streamId: _moralisBody.streamId,
-      user: {
-        credits: {
-          lte: 1000,
-        },
       },
     },
   });
