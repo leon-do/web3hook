@@ -4,11 +4,13 @@
 
 Includes:
 
-- Landing page
-- Dashboard
+- Landing page (index.tsx)
+- Dashboard (dashboard.tsx)
 - API
+  - `/api/admin`: Edit multiple rows in database
+  - `/api/auth`: Sign in and update user info
+  - `/api/moralis`: Relay webhook
   - `/api/zapier`: Zapier connection
-  - `/api/evm`: Emit connect (gets real time transactions)
   - Database connection
 
 ## Getting Started
