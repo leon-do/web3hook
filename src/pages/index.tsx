@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import Nav from "../components/Nav";
 import Hero from "../components/Hero";
 import Feature from "../components/Feature";
+import Chains from "../components/Chains";
 import Transaction from "../components/Transaction";
 import Event from "../components/Event";
 import ViewFunction from "../components/ViewFunction";
@@ -16,6 +17,7 @@ export default function Home() {
         <Nav />
         <Hero />
         <Feature />
+        <Chains />
         <Transaction />
         <Event />
         <ViewFunction />
