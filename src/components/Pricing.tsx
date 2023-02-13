@@ -71,7 +71,7 @@ export default function Pricing() {
                   <span className="text-4xl font-bold tracking-tight text-gray-900">$🤷</span>
                   <span className="text-base font-medium text-gray-500">/mo</span>
                 </p>
-                <button onClick={() => signIn(undefined, { callbackUrl: "/checkout?payment_method_collection=always" })} className="mt-8 block w-60 rounded-md border border-orange-300 bg-orange-300 py-2 text-center text-xl  text-white hover:bg-orange-300">
+                <button disabled onClick={() => signIn(undefined, { callbackUrl: "/checkout?payment_method_collection=always" })} className="mt-8 block w-60 rounded-md border border-orange-300 bg-orange-300 py-2 text-center text-xl  text-white hover:bg-orange-300">
                   Coming Soon
                 </button>
               </div>
