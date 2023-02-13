@@ -4,8 +4,10 @@ import { ethers } from "ethers";
 import { PrismaClient } from "@prisma/client";
 import { Trigger } from "@prisma/client";
 import { User } from "@prisma/client";
+import Stripe from "stripe";
 
 const prisma = new PrismaClient();
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, { apiVersion: "2022-11-15" });
 
 type MoralisBody = {
   confirmed: boolean;
@@ -46,26 +48,34 @@ type Data = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  console.log("/moralis/hook");
   try {
+    console.log("/moralis/hook");
     const moralisBody: MoralisBody = req.body;
     // only send pending txs
     if (moralisBody.confirmed) return res.status(200).json({ success: true });
-    // get trigger from database
+    // get moralis trigger from database
     const trigger = await queryDatabase(moralisBody);
     // if no trigger, return error
-    if (!trigger) return res.status(200).send({ success: false });
+    if (!trigger || !trigger.user.stripe) return res.status(200).send({ success: false });
+    // get user subscription from stripe
+    const { subscription } = await stripe.subscriptionItems.retrieve(trigger.user.stripe);
+    // check if user paid
+    const { default_payment_method } = await stripe.subscriptions.retrieve(subscription);
+    // get credits from subscription
+    const credits = await getUsage(trigger.user.stripe);
+    // if credits > 1000 && no credit card, return error
+    if (credits > 1000 && !default_payment_method) return res.status(200).send({ success: false });
     // if no abi then POST transaction
     if (!trigger.abi || trigger.abi.length === 0) {
       const transactionResponse = getTransactionResponse(moralisBody);
+      await incrementUsage(trigger.user.stripe);
       await axios.post(trigger.webhookUrl, transactionResponse);
-      await incrementCredits(trigger);
     }
     // if abi then POST event
     if (trigger.abi && trigger.event) {
       const eventResponse: HookResponse = getEventResponse(trigger, moralisBody);
+      await incrementUsage(trigger.user.stripe);
       await axios.post(trigger.webhookUrl, eventResponse);
-      await incrementCredits(trigger);
     }
     return res.status(200).json({ success: true });
   } catch {
@@ -73,27 +83,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 }
 
-async function queryDatabase(_moralisBody: MoralisBody): Promise<Trigger | null> {
-  //  SELECT * FROM "Trigger" WHERE "streamId" = '0x1' AND ("user"."credits" <= 1000 OR "user"."paid" = true)
-  return await prisma.trigger.findFirst({
+async function queryDatabase(_moralisBody: MoralisBody): Promise<(Trigger & { user: User }) | null> {
+  const data = await prisma.trigger.findFirst({
     where: {
       streamId: _moralisBody.streamId,
-      OR: [
-        {
-          user: {
-            credits: {
-              lte: 1000,
-            },
-          },
-        },
-        {
-          user: {
-            paid: true,
-          },
-        },
-      ],
+    },
+    include: {
+      user: true,
     },
   });
+  return data;
 }
 
 function getTransactionResponse(_moralisBody: MoralisBody): HookResponse {
@@ -134,15 +133,15 @@ function getEventResponse(_trigger: Trigger, _moralisBody: MoralisBody): HookRes
   return hookResponse;
 }
 
-async function incrementCredits(_trigger: Trigger): Promise<User> {
-  return await prisma.user.update({
-    where: {
-      id: _trigger.userId,
-    },
-    data: {
-      credits: {
-        increment: 1,
-      },
-    },
+async function getUsage(_subscriptionId: string): Promise<number> {
+  const usage = await stripe.subscriptionItems.listUsageRecordSummaries(_subscriptionId);
+  return usage.data[0].total_usage;
+}
+
+async function incrementUsage(_subscriptionId: string): Promise<Stripe.Response<Stripe.UsageRecord>> {
+  const increment = await stripe.subscriptionItems.createUsageRecord(_subscriptionId, {
+    quantity: 1,
+    action: "increment",
   });
+  return increment;
 }

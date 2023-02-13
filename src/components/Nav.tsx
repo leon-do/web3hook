@@ -45,7 +45,7 @@ export default function Nav() {
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <Menu.Item>
                           {({ active }) => (
-                            <Link href="/dashboard" className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700")}>
+                            <Link href="/checkout" className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700")}>
                               Dashboard
                             </Link>
                           )}
@@ -61,7 +61,7 @@ export default function Nav() {
                     </Transition>
                   </Menu>
                 ) : (
-                  <button className="text-lg" onClick={() => signIn(undefined, { callbackUrl: "/dashboard" })}>
+                  <button className="text-lg" onClick={() => signIn(undefined, { callbackUrl: "/checkout" })}>
                     {session === null ? "Sign In" : ""}
                   </button>
                 )}
@@ -93,7 +93,7 @@ export default function Nav() {
                   </div>
                 </div>
                 <div className="mt-3 space-y-1">
-                  <Disclosure.Button as="a" href="/dashboard" className="block px-4 py-2 text-base font-large text-gray-500 hover:bg-gray-100 hover:text-gray-800">
+                  <Disclosure.Button as="a" href="/checkout" className="block px-4 py-2 text-base font-large text-gray-500 hover:bg-gray-100 hover:text-gray-800">
                     Dashboard
                   </Disclosure.Button>
                   <Disclosure.Button as="div" onClick={() => signOut({ callbackUrl: "/" })} className="cursor-pointer block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800">
