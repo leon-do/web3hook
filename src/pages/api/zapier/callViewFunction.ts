@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ethers } from "ethers";
 import { PrismaClient } from "@prisma/client";
-import { User } from "@prisma/client";
+import Stripe from "stripe";
 
 const prisma = new PrismaClient();
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, { apiVersion: "2022-11-15" });
 
 const providers: Providers = {
   "1": new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/eth"),
@@ -36,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // query database for user with api_key
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
     // if no user, return error
-    if (!user) return res.status(400).send({ data: "Invalid API Key" });
+    if (!user || !user.stripe) return res.status(400).send({ data: "Invalid API Key" });
     // get request body
     const { chainId, address, abi, func, args } = req.body;
     // get provider
@@ -51,22 +52,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     } else {
       val = await contract[func](...args.split(",").map((arg: string) => arg.trim()));
     }
-    incrementCredits(user);
+    await incrementUsage(user.stripe);
     return res.status(200).send({ data: val.toString() });
   } catch (error: any) {
     return res.status(400).json({ data: error.message as string });
   }
 }
 
-async function incrementCredits(_user: User): Promise<User> {
-  return await prisma.user.update({
-    where: {
-      id: _user.id,
-    },
-    data: {
-      credits: {
-        increment: 1,
-      },
-    },
+async function incrementUsage(_subscriptionId: string): Promise<Stripe.Response<Stripe.UsageRecord>> {
+  const increment = await stripe.subscriptionItems.createUsageRecord(_subscriptionId, {
+    quantity: 1,
+    action: "increment",
   });
+  return increment;
 }
