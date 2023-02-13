@@ -15,7 +15,7 @@ export const config = { api: { bodyParser: false } };
 // https://egghead.io/lessons/next-js-subscribe-to-stripe-webhooks-using-next-js-api-routes
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    console.log("/stripe/receipt");
+    console.log("/stripe/hook");
     const sig = req.headers["stripe-signature"];
     if (!sig) return res.status(400).send({ status: false });
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, { apiVersion: "2022-11-15" });
@@ -29,7 +29,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       data: { stripe: subscription.items.data[0].id },
     });
     return res.status(200).send({ status: true });
-  } catch {
+  } catch (error) {
+    console.error(error);
     return res.status(400).send({ status: false });
   }
 }

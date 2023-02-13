@@ -35,7 +35,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       credits: usage.data[0].total_usage,
       paid: subscription.default_payment_method ? true : false, // has credit card on file
     });
-  } catch {
+  } catch (error) {
+    console.error(error);
     return res.status(401).json({ apiKey: "", credits: 0, paid: false });
   }
 }
