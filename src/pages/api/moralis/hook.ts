@@ -55,7 +55,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (moralisBody.confirmed) return res.status(200).json({ success: true });
     // get moralis trigger from database
     const trigger = await queryDatabase(moralisBody);
-    console.log("trigger", trigger);
     // if no trigger, return error
     if (!trigger || !trigger.user.stripe) return res.status(200).send({ success: false });
     // get user subscription from stripe

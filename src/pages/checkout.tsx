@@ -14,11 +14,9 @@ export default function Checkout() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const paymentMethod = urlParams.get("payment_method_collection");
-    console.log(paymentMethod)
     fetch("/api/auth/user")
       .then((res) => res.json())
       .then((user: User) => {
-        console.log(user.paid, paymentMethod)
         if (user.paid === true) window.location.href = "/dashboard";
         if (user.paid === null) checkout(paymentMethod);
         if (user.paid === false && paymentMethod) checkout(paymentMethod);
