@@ -12,13 +12,17 @@ type User = {
 // route between /dashboard or stripe checkout based on user status
 export default function Checkout() {
   useEffect(() => {
-    // get query params
     const urlParams = new URLSearchParams(window.location.search);
+    const paymentMethod = urlParams.get("payment_method_collection");
+    console.log(paymentMethod)
     fetch("/api/auth/user")
       .then((res) => res.json())
       .then((user: User) => {
-        // if user has not checked out, go to stripe checkout, else redirect to dashboard,
-        user.paid === null ? checkout(urlParams.get("payment_method_collection")) : (window.location.href = "/dashboard");
+        console.log(user.paid, paymentMethod)
+        if (user.paid === true) window.location.href = "/dashboard";
+        if (user.paid === null) checkout(paymentMethod);
+        if (user.paid === false && paymentMethod) checkout(paymentMethod);
+        if (user.paid === false && !paymentMethod) window.location.href = "/dashboard";
       });
   }, []);
 

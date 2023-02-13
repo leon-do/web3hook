@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: [{ price: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID as string }],
-      success_url: `${absoluteUrl(req).protocol}//${absoluteUrl(req).host}/dashboard`,
+      success_url: `${absoluteUrl(req).protocol}//${absoluteUrl(req).host}/checkout`,
       cancel_url: `${absoluteUrl(req).protocol}//${absoluteUrl(req).host}/`,
       payment_method_collection: req.query.payment_method_collection === "always" ? "always" : "if_required", // 'always' or 'if_required'
     });

@@ -18,6 +18,10 @@ export default function Dashboard() {
     fetch("/api/auth/user")
       .then((res) => res.json())
       .then((user: User) => {
+        // only users can access dashboard page
+        if (!user.apiKey) window.location.href = "/";
+        // redirect to checkout if user has not gone through stripe
+        if (user.paid === null) window.location.href = "/checkout";
         setApiKey(user.apiKey);
         setCredits(user.credits);
         setPaid(user.paid);
