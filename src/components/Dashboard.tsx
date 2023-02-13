@@ -67,7 +67,7 @@ export default function Dashboard() {
                 <div className="m-6">
                   <code className="block text-lg font-medium text-gray-700">{apiKey}</code>
                   {apiKey ? (
-                    <button onClick={() => handleResetApiKey()} type="button" className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none">
+                    <button onClick={() => handleResetApiKey()} type="button" className="mt-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none">
                       Reset API Key
                     </button>
                   ) : (
@@ -89,10 +89,17 @@ export default function Dashboard() {
                 </div>
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-lg font-medium text-gray-700">Paid</label>
+                <label className="block text-lg font-medium text-gray-700">Plan</label>
                 <div className="mt-1">
                   <div className="m-6">
-                    <code className="block text-lg font-medium text-gray-700">{paid?.toString()}</code>
+                    <code className="block text-lg font-medium text-gray-700">{!paid ? "Hobby" : "Enterprise"}</code>
+                    {!paid ? (
+                      <Link href="/checkout?payment_method_collection=always" className="mt-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none">
+                        Upgrade
+                      </Link>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </div>
               </div>

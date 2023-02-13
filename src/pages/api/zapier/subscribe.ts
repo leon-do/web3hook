@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import { Trigger } from "@prisma/client";
+import absoluteUrl from "next-absolute-url";
 import Moralis from "moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
 
@@ -14,14 +15,6 @@ const prisma = new PrismaClient();
 
 type Data = {
   success: boolean;
-};
-
-type Body = {
-  webhookUrl: string;
-  chainId: string;
-  address: string;
-  abi: string;
-  event: string;
 };
 
 // https://platform.zapier.com/docs/triggers#subscribe
@@ -40,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       address: req.body.address.toLowerCase() as string,
       abi: req.body.abi as string,
       event: req.body.event as string,
-      streamId: await moralisAdd(req.body),
+      streamId: await moralisAdd(req),
     };
     // insert to transaction database
     await prisma.trigger.create({ data: trigger });
@@ -50,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 }
 
-async function moralisAdd(_body: Body): Promise<string> {
+async function moralisAdd(_req: NextApiRequest): Promise<string> {
   const chains = {
     "1": EvmChain.ETHEREUM,
     "5": EvmChain.GOERLI,
@@ -70,12 +63,12 @@ async function moralisAdd(_body: Body): Promise<string> {
   try {
     // https://docs.moralis.io/streams-api/how-to-listen-to-all-erc20-contract-transfers-over-certain-amount-sent-by-specific-address#programmatically
     const stream = await Moralis.Streams.add({
-      chains: [chains[_body.chainId as keyof typeof chains]],
-      description: _body.webhookUrl,
-      tag: _body.webhookUrl,
-      abi: !_body.abi ? undefined : JSON.parse(_body.abi),
-      topic0: !_body.abi ? undefined : [_body.event],
-      webhookUrl: "https://web3hook.com/api/moralis/hook",
+      chains: [chains[_req.body.chainId as keyof typeof chains]],
+      description: _req.body.webhookUrl,
+      tag: _req.body.webhookUrl,
+      abi: !_req.body.abi ? undefined : JSON.parse(_req.body.abi),
+      topic0: !_req.body.abi ? undefined : [_req.body.event],
+      webhookUrl: `${absoluteUrl(_req.body).protocol}//${absoluteUrl(_req.body).host}/api/moralis/hook`,
       includeContractLogs: true,
       includeNativeTxs: true,
       includeInternalTxs: true,
@@ -83,7 +76,7 @@ async function moralisAdd(_body: Body): Promise<string> {
     const { id } = stream.toJSON();
     await Moralis.Streams.addAddress({
       id,
-      address: _body.address,
+      address: _req.body.address,
     });
     return id;
   } catch {

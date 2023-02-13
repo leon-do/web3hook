@@ -61,7 +61,7 @@ export default function Nav() {
                     </Transition>
                   </Menu>
                 ) : (
-                  <button className="text-lg" onClick={() => signIn(undefined, { callbackUrl: "/dashboard" })}>
+                  <button className="text-lg" onClick={() => signIn(undefined, { callbackUrl: "/checkout" })}>
                     {session === null ? "Sign In" : ""}
                   </button>
                 )}
