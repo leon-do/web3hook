@@ -20,7 +20,6 @@ type Data = {
 // https://platform.zapier.com/docs/triggers#subscribe
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    console.log("/zapier/subscribe");
     // query database for user with api_key
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
     // if no user, return error
@@ -68,7 +67,7 @@ async function moralisAdd(_req: NextApiRequest): Promise<string> {
       tag: _req.body.webhookUrl,
       abi: !_req.body.abi ? undefined : JSON.parse(_req.body.abi),
       topic0: !_req.body.abi ? undefined : [_req.body.event],
-      webhookUrl: `${absoluteUrl(_req.body).protocol}//${absoluteUrl(_req.body).host}/api/moralis/hook`,
+      webhookUrl: `${absoluteUrl(_req).protocol}//${absoluteUrl(_req).host}/api/moralis/hook`,
       includeContractLogs: true,
       includeNativeTxs: true,
       includeInternalTxs: true,
