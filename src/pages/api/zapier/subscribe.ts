@@ -79,7 +79,8 @@ async function moralisAdd(_req: NextApiRequest): Promise<string> {
       address: _req.body.address,
     });
     return id;
-  } catch {
+  } catch (error) {
+    console.error(error);
     return "";
   }
 }

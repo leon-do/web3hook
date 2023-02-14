@@ -78,7 +78,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       await axios.post(trigger.webhookUrl, eventResponse);
     }
     return res.status(200).json({ success: true });
-  } catch {
+  } catch (error) {
+    console.log(error);
     return res.status(200).send({ success: false });
   }
 }
