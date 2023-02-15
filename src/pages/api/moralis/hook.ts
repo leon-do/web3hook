@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import { Trigger } from "@prisma/client";
 import { User } from "@prisma/client";
 import Stripe from "stripe";
+import incrementUsage from "@/utils/incrementUsage";
 
 const prisma = new PrismaClient();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, { apiVersion: "2022-11-15" });
@@ -137,12 +138,4 @@ function getEventResponse(_trigger: Trigger, _moralisBody: MoralisBody): HookRes
 async function getUsage(_subscriptionId: string): Promise<number> {
   const usage = await stripe.subscriptionItems.listUsageRecordSummaries(_subscriptionId);
   return usage.data[0].total_usage;
-}
-
-async function incrementUsage(_subscriptionId: string): Promise<Stripe.Response<Stripe.UsageRecord>> {
-  const increment = await stripe.subscriptionItems.createUsageRecord(_subscriptionId, {
-    quantity: 1,
-    action: "increment",
-  });
-  return increment;
 }

@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // query database for user with api_key
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
     // if no user, return error
-    if (!user) return res.status(400).send({ success: false });
+    if (!user) return res.status(401).send({ success: false });
     // define Trigger to insert
     const trigger: Trigger = {
       userId: user.id as string,

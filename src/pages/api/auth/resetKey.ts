@@ -12,17 +12,23 @@ type Data = {
 
 // Reset new api keys for user when they click "Reset API Key" button on /dashboard page
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const session = await getServerSession(req, res, authOptions);
-  if (!session) return res.status(401).json({ data: "Unauthorized" });
-  if (!session.user?.email) return res.status(401).json({ data: "Unauthorized" });
-  const user = await prisma.user.update({
-    where: {
-      email: session.user.email
-    },
-    data: {
-      apiKey: createId(),
-    },
-  });
-  if (!user) return res.status(401).json({ data: "Unauthorized" });
-  res.status(200).json({ data: user.apiKey });
+  try {
+    console.log("/auth/resetKey");
+    const session = await getServerSession(req, res, authOptions);
+    if (!session) return res.status(401).json({ data: "Unauthorized" });
+    if (!session.user?.email) return res.status(401).json({ data: "Unauthorized" });
+    const user = await prisma.user.update({
+      where: {
+        email: session.user.email,
+      },
+      data: {
+        apiKey: createId(),
+      },
+    });
+    if (!user) return res.status(401).json({ data: "Unauthorized" });
+    res.status(200).json({ data: user.apiKey });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ data: "Error" });
+  }
 }
