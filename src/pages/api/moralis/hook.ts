@@ -6,6 +6,7 @@ import { Trigger } from "@prisma/client";
 import { User } from "@prisma/client";
 import Stripe from "stripe";
 import incrementUsage from "@/utils/incrementUsage";
+import getTotalUsage from "@/utils/getTotalUsage";
 
 const prisma = new PrismaClient();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, { apiVersion: "2022-11-15" });
@@ -62,10 +63,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const { subscription } = await stripe.subscriptionItems.retrieve(trigger.user.stripe);
     // check if user paid
     const { default_payment_method } = await stripe.subscriptions.retrieve(subscription);
-    // get credits from subscription
-    const credits = await getUsage(trigger.user.stripe);
-    // if credits > 1000 && no credit card, return error
-    if (credits > 1000 && !default_payment_method) return res.status(200).send({ success: false });
+    // get usage from subscription
+    const usage = await getTotalUsage(trigger.user.stripe);
+    // if usage > 1000 && no credit card, return error
+    if (usage > 1000 && !default_payment_method) return res.status(200).send({ success: false });
     // if no abi then POST transaction
     if (!trigger.abi || trigger.abi.length === 0) {
       const transactionResponse = getTransactionResponse(moralisBody);
@@ -133,9 +134,4 @@ function getEventResponse(_trigger: Trigger, _moralisBody: MoralisBody): HookRes
     hookResponse[`${eventName}_${key}`] = eventSignature.args[key].toString();
   }
   return hookResponse;
-}
-
-async function getUsage(_subscriptionId: string): Promise<number> {
-  const usage = await stripe.subscriptionItems.listUsageRecordSummaries(_subscriptionId);
-  return usage.data[0].total_usage;
 }

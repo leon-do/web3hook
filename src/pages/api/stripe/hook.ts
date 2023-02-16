@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     console.log("/stripe/hook");
     const sig = req.headers["stripe-signature"];
-    if (!sig) return res.status(400).send({ status: false });
+    if (!sig) return res.status(401).send({ status: false });
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, { apiVersion: "2022-11-15" });
     // https://github.com/dijonmusters/build-a-saas-with-next-js-supabase-and-stripe/blob/master/21-subscribe-to-stripe-webhooks-using-next-js-api-routes/pages/api/stripe-hooks.js
     const event: any = stripe.webhooks.constructEvent(await buffer(req), sig, process.env.STRIPE_WEBHOOK_SECRET_KEY as string);
