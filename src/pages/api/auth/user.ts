@@ -29,11 +29,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // if no stripe checkout, return paid = null
     if (!user.stripe) return res.status(200).json({ apiKey: user.apiKey, credits: 0, paid: null });
     const subscriptionItem = await stripe.subscriptionItems.retrieve(user.stripe);
-    const subscription = await stripe.subscriptions.retrieve(subscriptionItem.subscription);
+    const { default_payment_method, status } = await stripe.subscriptions.retrieve(subscriptionItem.subscription);
+    // if subscription is not active, return paid = null
+    if (status !== "active") return res.status(200).json({ apiKey: user.apiKey, credits: 0, paid: null });
     return res.status(200).json({
       apiKey: user.apiKey,
       credits: await getTotalUsage(user.stripe),
-      paid: subscription.default_payment_method ? true : false, // has credit card on file
+      paid: default_payment_method ? true : false, // has credit card on file
     });
   } catch (error) {
     console.error(error);
