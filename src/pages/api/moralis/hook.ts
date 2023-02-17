@@ -62,7 +62,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // get user subscription from stripe
     const { subscription } = await stripe.subscriptionItems.retrieve(trigger.user.stripe);
     // check if user paid
-    const { default_payment_method } = await stripe.subscriptions.retrieve(subscription);
+    const { default_payment_method, status } = await stripe.subscriptions.retrieve(subscription);
+    // if subscription is not active, return error
+    if (status !== "active") return res.status(200).send({ success: false });
     // get usage from subscription
     const usage = await getTotalUsage(trigger.user.stripe);
     // if usage > 1000 && no credit card, return error
