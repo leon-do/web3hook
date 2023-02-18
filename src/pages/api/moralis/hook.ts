@@ -57,17 +57,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (moralisBody.confirmed) return res.status(200).json({ success: true });
     // get moralis trigger from database
     const trigger = await queryDatabase(moralisBody);
-    // if no trigger, return error
     if (!trigger || !trigger.user.stripe) return res.status(200).send({ success: false });
-    // get user subscription from stripe
     const subscriptionItem = await stripe.subscriptionItems.retrieve(trigger.user.stripe);
-    // check if user paid
     const subscription = await stripe.subscriptions.retrieve(subscriptionItem.subscription);
     // if subscription is not active, return error
     if (subscription.status !== "active") return res.status(200).send({ success: false });
-    // get usage from subscription
     const usage = await getTotalUsage(trigger.user.stripe);
-    // if usage > 1000 && no credit card, return error
+    // if usage is over && no credit card, return error
     if (usage > 1000 && !subscription.default_payment_method) return res.status(200).send({ success: false });
     // if no abi then POST transaction
     if (!trigger.abi || trigger.abi.length === 0) {
