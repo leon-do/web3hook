@@ -67,7 +67,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (usage > 1000 && !subscription.default_payment_method) return res.status(200).send({ success: false });
     // if no abi then POST transaction
     if (!trigger.abi || trigger.abi.length === 0) {
-      const transactionResponse = getTransactionResponse(moralisBody);
+      const transactionResponse: HookResponse = getTransactionResponse(moralisBody);
       await incrementUsage(trigger.user.stripe);
       await axios.post(trigger.webhookUrl, transactionResponse);
     }
