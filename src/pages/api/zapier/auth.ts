@@ -13,15 +13,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     console.log("/zapier/auth");
     const { api_key } = req.body;
     if (!api_key) return res.status(401).json({ success: false });
-    // query database for user with api_key
-    const user = await prisma.user.findUnique({
-      where: {
-        apiKey: api_key,
-      },
-    });
-    if (user) {
-      return res.status(200).json({ success: true });
-    }
+    const user = await prisma.user.findUnique({ where: { apiKey: api_key } });
+    if (user) return res.status(200).json({ success: true });
     return res.status(400).json({ success: false });
   } catch (error) {
     console.error(error);

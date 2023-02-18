@@ -16,9 +16,7 @@ type PerformList = {
 // https://platform.zapier.com/docs/faq#i-get-a-trigger-error-saying-that-an-array-is-expected-how-do-i-fix-it
 export default async function handler(req: NextApiRequest, res: NextApiResponse<PerformList[]>) {
   console.log("/zapier/transactionPerformList");
-  // query database for user with api_key
   const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
-  // if no user, return error
   if (!user) return res.status(401).send([]);
   return res.status(200).send([
     {
@@ -28,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       value: "0",
       chainId: 1,
       data: "0x0",
-      gasLimit: "21000"
+      gasLimit: "21000",
     },
   ]);
 }

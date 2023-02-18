@@ -20,11 +20,8 @@ type Data = {
 // https://platform.zapier.com/docs/triggers#subscribe
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    // query database for user with api_key
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
-    // if no user, return error
     if (!user) return res.status(401).send({ success: false });
-    // define Trigger to insert
     const trigger: Trigger = {
       userId: user.id as string,
       webhookUrl: req.body.webhookUrl as string,
@@ -34,7 +31,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       event: req.body.event as string,
       streamId: await moralisAdd(req),
     };
-    // insert to transaction database
     await prisma.trigger.create({ data: trigger });
     return res.status(200).redirect(req.body.webhookUrl as string);
   } catch {
@@ -42,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 }
 
-async function moralisAdd(_req: NextApiRequest): Promise<string> {
+async function moralisAdd(_req: NextApiRequest): Promise<string | null> {
   const chains = {
     "1": EvmChain.ETHEREUM,
     "5": EvmChain.GOERLI,
@@ -73,13 +69,10 @@ async function moralisAdd(_req: NextApiRequest): Promise<string> {
       includeInternalTxs: true,
     });
     const { id } = stream.toJSON();
-    await Moralis.Streams.addAddress({
-      id,
-      address: _req.body.address,
-    });
+    await Moralis.Streams.addAddress({ id, address: _req.body.address });
     return id;
   } catch (error) {
     console.error(error);
-    return "";
+    return null;
   }
 }

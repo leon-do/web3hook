@@ -13,9 +13,7 @@ type PerformList = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse<PerformList[]>) {
   try {
     console.log("/zapier/eventPerformList");
-    // query database for user with api_key
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
-    // if no user, return error
     if (!user) return res.status(401).send([]);
     return res.status(200).send([getPerformList(req.body.abi as string, req.body.event as string)]);
   } catch {
@@ -26,7 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 function getPerformList(_abi: string, _event: string): PerformList {
   const emptyEvents: PerformList = { transactionHash: "0x0" };
   const iface = new ethers.utils.Interface(_abi);
-  // fill event with null values: [ { "transactionHash": "0x0", "Transfer_from": "0x0", "Transfer_to": "0x0", "Transfer_value": "0x0" } ]
   const eventName = iface.events[_event].name;
   iface.events[_event].inputs.forEach((input) => {
     emptyEvents[`${eventName}_${input.name}`] = "0x0";
