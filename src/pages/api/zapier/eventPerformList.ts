@@ -16,7 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
     if (!user) return res.status(401).send([]);
     return res.status(200).send([getPerformList(req.body.abi as string, req.body.event as string)]);
-  } catch {
+  } catch (error) {
+    console.error(error);
     return res.status(400).send([]);
   }
 }
