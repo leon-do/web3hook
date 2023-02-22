@@ -20,6 +20,7 @@ type Data = {
 // https://platform.zapier.com/docs/triggers#subscribe
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
+    console.log("/api/zapier/subscribe");
     const user = await prisma.user.findUnique({ where: { apiKey: req.headers["x-api-key"] as string } });
     if (!user) return res.status(401).send({ success: false });
     const trigger: Trigger = {
@@ -33,7 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     };
     await prisma.trigger.create({ data: trigger });
     return res.status(200).redirect(req.body.webhookUrl as string);
-  } catch {
+  } catch (error) {
+    console.error(error);
     return res.status(400).send({ success: false });
   }
 }

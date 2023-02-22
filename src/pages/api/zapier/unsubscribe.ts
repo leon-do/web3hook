@@ -26,7 +26,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // delete webhook from moralis
     await Moralis.Streams.delete({ id: trigger.streamId || "" });
     res.status(200).send({ success: true });
-  } catch {
+  } catch (error) {
+    console.error(error);
     return res.status(400).send({ success: false });
   }
 }
