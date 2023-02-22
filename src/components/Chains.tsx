@@ -8,11 +8,6 @@ export default function Chains() {
         <h1 className="text-5xl font-bold tracking-tight text-gray-900 sm:text-center">Across Multiple Chains</h1>
         <div className="mt-8 grid grid-cols-2 gap-0.5 md:grid-cols-3 lg:mt-8">
           <div className="col-span-1 flex justify-center py-8 px-8">
-            <Link href="https://mantle.xyz/" target="_blank" rel="noreferrer">
-              <Image width="96" height="96" src="/images/chains/mantle.png" alt="mantle" />
-            </Link>
-          </div>
-          <div className="col-span-1 flex justify-center py-8 px-8">
             <Link href="https://ethereum.org/en/" target="_blank" rel="noreferrer">
               <Image width="96" height="96" src="/images/chains/ethereum.png" alt="ethereum" />
             </Link>
@@ -50,6 +45,11 @@ export default function Chains() {
           <div className="col-span-1 flex justify-center py-8 px-8">
             <Link href="https://cronos.org/" target="_blank" rel="noreferrer">
               <Image width="96" height="96" src="/images/chains/cronos.png" alt="cronos" />
+            </Link>
+          </div>
+          <div className="col-span-1 flex justify-center py-8 px-8">
+            <Link href="https://mantle.xyz/" target="_blank" rel="noreferrer">
+              <Image width="96" height="96" src="/images/chains/mantle.png" alt="mantle" />
             </Link>
           </div>
           <div className="col-span-1 flex justify-center py-8 px-8">
