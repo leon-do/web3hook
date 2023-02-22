@@ -13,7 +13,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, { apiVersion:
 
 type MoralisBody = {
   confirmed: boolean;
-  chainId: string;
+  chainId: string; // hex
   streamId: string;
   txs: {
     hash: string;
@@ -39,7 +39,7 @@ type HookResponse = {
   fromAddress?: string;
   toAddress?: string;
   value?: string;
-  chainId?: string;
+  chainId?: number;
   data?: string;
   gasLimit?: string;
   [key: string]: any;
@@ -102,7 +102,7 @@ function getTransactionResponse(_moralisBody: MoralisBody): HookResponse {
     fromAddress: _moralisBody.txs[0].fromAddress,
     toAddress: _moralisBody.txs[0].toAddress,
     value: _moralisBody.txs[0].value,
-    chainId: parseInt(_moralisBody.chainId, 16).toString(),
+    chainId: parseInt(_moralisBody.chainId, 16),
     data: _moralisBody.logs[0]?.data || "",
     gasLimit: _moralisBody.txs[0].gas,
   };
