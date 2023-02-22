@@ -54,6 +54,7 @@ async function moralisAdd(_req: NextApiRequest): Promise<string | null> {
     "338": EvmChain.CRONOS_TESTNET,
     "11297108109": EvmChain.PALM,
     "42161": EvmChain.ARBITRUM,
+    "10": EvmChain.create("10"), // OPTIMISM
   };
 
   try {
