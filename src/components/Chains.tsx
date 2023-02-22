@@ -43,6 +43,11 @@ export default function Chains() {
             </Link>
           </div>
           <div className="col-span-1 flex justify-center py-8 px-8">
+            <Link href="https://optimism.io/" target="_blank" rel="noreferrer">
+              <Image width="96" height="96" src="/images/chains/optimism.png" alt="optimism" />
+            </Link>
+          </div>
+          <div className="col-span-1 flex justify-center py-8 px-8">
             <Link href="https://cronos.org/" target="_blank" rel="noreferrer">
               <Image width="96" height="96" src="/images/chains/cronos.png" alt="cronos" />
             </Link>
