@@ -42,6 +42,7 @@ async function moralisAdd(_req: NextApiRequest): Promise<string | null> {
   const chains = {
     "1": EvmChain.ETHEREUM,
     "5": EvmChain.GOERLI,
+    "11155111": EvmChain.SEPOLIA,
     "137": EvmChain.POLYGON,
     "80001": EvmChain.MUMBAI,
     "56": EvmChain.BSC,
