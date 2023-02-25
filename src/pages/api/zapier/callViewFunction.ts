@@ -21,6 +21,7 @@ const providers: Providers = {
   "11297108109": new ethers.providers.JsonRpcProvider("https://palm-mainnet.public.blastapi.io"),
   "42161": new ethers.providers.JsonRpcProvider("https://arb1.arbitrum.io/rpc"),
   "5001": new ethers.providers.JsonRpcProvider("https://rpc.testnet.mantle.xyz"),
+  "10": new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/optimism"),
 };
 
 type Providers = {
