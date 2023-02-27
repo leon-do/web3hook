@@ -26,7 +26,7 @@ export default function Nav() {
                   <Link href="https://docs.web3hook.com" target="_blank" rel="noreferrer" className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-lg font-medium text-gray-500 hover:border-orange-600 hover:text-gray-700">
                     Docs
                   </Link>
-                  <Link href="https://zapier.com/developer/public-invite/175846/9abda33206f333dd54ce325ca1adfc64/" target="_blank" rel="noreferrer" className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-lg font-medium text-gray-500 hover:border-orange-600 hover:text-gray-700">
+                  <Link href="https://zapier.com/developer/public-invite/178311/3e0902fcabf7888d20a58ec916cfa556/" target="_blank" rel="noreferrer" className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-lg font-medium text-gray-500 hover:border-orange-600 hover:text-gray-700">
                     Zapier
                   </Link>
                 </div>

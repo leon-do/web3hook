@@ -109,7 +109,7 @@ export default function Dashboard() {
               </div>
             </form>
             <div className="mt-12">
-              <Link href="https://zapier.com/developer/public-invite/175846/9abda33206f333dd54ce325ca1adfc64/" target="_blank" rel="noreferrer" className="w-60 text-center text-l items-center rounded-md border border-transparent bg-orange-600 px-6 py-3 text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+              <Link href="https://zapier.com/developer/public-invite/178311/3e0902fcabf7888d20a58ec916cfa556/" target="_blank" rel="noreferrer" className="w-60 text-center text-l items-center rounded-md border border-transparent bg-orange-600 px-6 py-3 text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
                 Start Building
               </Link>
             </div>
