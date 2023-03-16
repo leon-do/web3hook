@@ -97,13 +97,23 @@ export default function Dashboard() {
                 <div className="mt-1">
                   <div className="m-6">
                     <code className="block text-lg font-medium text-gray-700">{!paid ? "Hobby" : "Enterprise"}</code>
-                    {/* {!paid ? (
+                    {!paid ? (
                       <Link href="/checkout?payment_method_collection=always" className="mt-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none">
                         Upgrade
                       </Link>
                     ) : (
                       <></>
-                    )} */}
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-lg font-medium text-gray-700">Payment Portal</label>
+                <div className="mt-1">
+                  <div className="m-6">
+                    <Link href="https://billing.stripe.com/p/login/eVa9ED1ur9oI9CE5kk" className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none">
+                      Billing
+                    </Link>
                   </div>
                 </div>
               </div>
