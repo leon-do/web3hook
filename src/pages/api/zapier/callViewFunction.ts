@@ -22,6 +22,7 @@ const providers: Providers = {
   "42161": new ethers.providers.JsonRpcProvider("https://arb1.arbitrum.io/rpc"),
   "5001": new ethers.providers.JsonRpcProvider("https://rpc.testnet.mantle.xyz"),
   "10": new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/optimism"),
+  "7701": new ethers.providers.JsonRpcProvider("https://canto-testnet.plexnode.wtf"),
 };
 
 type Providers = {
